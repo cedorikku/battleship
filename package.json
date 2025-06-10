@@ -2,13 +2,15 @@
   "name": "template",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "scripts": {
     "build": "webpack --config webpack.prod.js",
     "dev": "webpack serve --config webpack.dev.js",
     "deploy": "git merge --no-edit main && git subtree push --prefix dist origin gh-pages",
     "lint": "eslint .",
     "format:write": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "test": "jest"
   },
   "devDependencies": {
     "@babel/core": "^7.26.9",
