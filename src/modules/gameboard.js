@@ -1,9 +1,19 @@
 import Ship from './ship';
 
+/**
+ * Represents the battleship gameboard of a player
+ * @class
+ */
 class Gameboard {
     constructor() {
         this.BOARD_SIZE = 10;
         this.board = [];
+        /**
+         * A map to keep track of hit & missed coordinates.
+         * Keys are string representations of coordinates (e.g., "x,y") and the value is an object.
+         * @type {Map<string, string>}
+         */
+        this.tracker = new Map();
 
         for (let i = 0; i < this.BOARD_SIZE; i++) {
             this.board[i] = [];
@@ -15,20 +25,27 @@ class Gameboard {
 
     /**
      *
+     * Adds a record of the missed coordinates.
+     * @param coords {object} Coordinates that missed.
+     */
+    #addTracking(coords, status) {
+        this.tracker.set(`${coords.x}${coords.y}`, status);
+    }
+
+    /**
      * Gets the size of the board.
+     * @returns {number} Returns the size of the player's board.
      */
     getBoardSize() {
         return this.BOARD_SIZE;
     }
 
     /**
-     *
      * Handle placing the root of the ship at coord x & y.
-     *
-     * @param {Number} length length of the ship.
-     * @param {Number} x x coordinate.
-     * @param {Number} y y coordinate.
-     * @returns {Number} Returns 0 if successful, 1 if occupied and -1 invalid.
+     * @param {number} length length of the ship.
+     * @param {number} x x coordinate.
+     * @param {number} y y coordinate.
+     * @returns {number} Returns 0 if successful, 1 if occupied and -1 invalid.
      */
     placeShip(x, y, length = 1) {
         const ship = new Ship(length);
@@ -50,24 +67,34 @@ class Gameboard {
     }
 
     /**
-     *
-     * Handle how coords x & y receive the attack.
-     *
-     * @param {Number} x x coordinate.
-     * @param {Number} y y coordinate.
-     * @returns {Number} Returns 0 if successful, 1 miss, and -1 for invalid.
+     * Handle how coords X & Y receive the attack.
+     * @param {number} x X coordinate.
+     * @param {number} y Y coordinate.
+     * @returns {number} Returns 0 if successful, 1 if it misses, 2 if was already hit, and -1 for invalid.
      */
     receiveAttack(x, y) {
-        if (this.board[x][y].isHit) return -1;
+        const b_size = this.getBoardSize();
 
-        if (!this.board[x][y] && this.board[x][y] instanceof Ship) {
+        // invalid
+        if (x >= b_size || x < 0 || y > b_size || y < 0) {
+            return -1;
+        }
+
+        // already hit or missed
+        if (this.tracker.has(`${x}${y}`)) return 2;
+
+        if (this.board[x][y] && this.board[x][y] instanceof Ship) {
             this.board[x][y].hit();
-            this.board[x][y].isHit = true;
+            this.#addTracking({ x: x, y: y }, 'hit');
+
+            // TODO handle whether the ship is sunk or not
+
             return 0;
         }
 
         // mark as miss
-        this.board[x][y].isHit = false;
+        this.board[x][y] = 'miss';
+        this.#addTracking({ x: x, y: y }, 'miss');
         return 1;
     }
 }

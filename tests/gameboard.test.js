@@ -19,5 +19,30 @@ describe('Ship placements', () => {
         expect(gb.placeShip(-1, 11)).toBe(-1);
     });
 
-    // ship isn't the right size
+    // TODO ship isn't the right size
+});
+
+describe('Receive ship hit', () => {
+    const gb = new Gameboard();
+    gb.placeShip(0, 0);
+
+    test('Registers attack as hit', () => {
+        expect(gb.receiveAttack(0, 0)).toBe(0);
+    });
+
+    test('Registers attack as miss', () => {
+        expect(gb.receiveAttack(1, 1)).toBe(1);
+    });
+
+    test('Recognize space as already attacked', () => {
+        expect(gb.receiveAttack(0, 0)).toBe(2);
+        expect(gb.receiveAttack(1, 1)).toBe(2);
+    });
+
+    test('Rejects invalid spaces that are out of bounds', () => {
+        expect(gb.receiveAttack(0, -1)).toBe(-1);
+        expect(gb.receiveAttack(10, 10)).toBe(-1);
+    });
+
+    // TODO a ship has been sunk
 });
