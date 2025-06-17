@@ -11,6 +11,8 @@ class Ship {
      * Activate if the ship has been hit.
      */
     hit() {
+        if (this.isSunk()) return;
+
         this.hits++;
     }
 
