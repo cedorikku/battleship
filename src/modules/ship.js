@@ -1,14 +1,26 @@
-export class Ship {
+/**
+ * Ship
+ */
+class Ship {
     constructor(length) {
         this.length = length;
-        this.hit = 0;
+        this.hits = 0;
     }
 
+    /**
+     * Activate if the ship has been hit.
+     */
     hit() {
-        this.hit++;
+        this.hits++;
     }
 
+    /**
+     * Tells whether or not the ship has been sunk.
+     * @returns true if ship has no more space, otherwise false
+     */
     isSunk() {
-        return this.length === this.hit;
+        return this.length === this.hits;
     }
 }
+
+export default Ship;
