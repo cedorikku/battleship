@@ -15,8 +15,8 @@ describe('Ship placements', () => {
         const gb = new Gameboard();
         gb.placeShip(0, 0, 2, true); // vertical ship with 2 length
 
-        expect(gb.placeShip(0, 0, 2)).toBe(-1);
-        expect(gb.placeShip(-1, 11, 2)).toBe(-1);
+        expect(gb.placeShip(0, 0, 2, true)).toBe(-1);
+        expect(gb.placeShip(-1, 11, 2, true)).toBe(-1);
     });
 
     // TODO: Add test case to reject invalid body-tail placement
