@@ -5,9 +5,7 @@ import { randomInt } from './utils.js';
 
 class GameController {
     constructor() {
-        this.state = {
-            currentPlayer: null,
-        };
+        this.currentPlayer = null;
         this.screen = new ScreenController();
     }
 
@@ -19,6 +17,7 @@ class GameController {
         this.screen.renderBoards();
     }
 
+    /** WIP Starts the game. */
     startGame() {
         const playerOne = new Player('Player 1', false);
         this.#populateBoard(playerOne.board);
@@ -27,8 +26,13 @@ class GameController {
         this.#populateBoard(playerTwo.board);
 
         // start the round with playerOne
-        this.state.currentPlayer = playerOne;
+        this.setCurrentPlayer(playerOne);
         this.playRound(playerOne, playerTwo);
+    }
+
+    /** Sets the current player */
+    setCurrentPlayer(player) {
+        this.currentPlayer = player;
     }
 
     /**
@@ -93,7 +97,7 @@ class GameController {
     }
 
     handleMoveResult(status) {
-         this.screen.showMessage(status);
+        this.screen.showMessage(status);
     }
 }
 
