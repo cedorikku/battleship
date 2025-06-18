@@ -2,9 +2,10 @@
  * Ship
  */
 class Ship {
-    constructor(length) {
+    constructor(length, isVertical = true) {
         this.length = length;
         this.hits = 0;
+        this.isVertical = isVertical;
     }
 
     /**
