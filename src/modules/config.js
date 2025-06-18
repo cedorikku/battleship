@@ -1,5 +1,5 @@
-class Settings {
+class Config {
     static boardSize = 10;
 }
 
-export default Settings;
+export default Config;
