@@ -1,4 +1,5 @@
-import Ship from './ship';
+import Config from './config.js'
+import Ship from './ship.js';
 
 /**
  * Represents the battleship gameboard of a player
@@ -6,8 +7,8 @@ import Ship from './ship';
  */
 class Gameboard {
     constructor() {
-        this.BOARD_SIZE = 10;
         this.board = [];
+        this.boardSize = Config.boardSize;
         /**
          * A map to keep track of hit & missed coordinates.
          * Keys are string representations of coordinates (e.g., "x,y") and the value is an object.
@@ -15,29 +16,43 @@ class Gameboard {
          */
         this.tracker = new Map();
 
-        for (let i = 0; i < this.BOARD_SIZE; i++) {
+        for (let i = 0; i < this.boardSize; i++) {
             this.board[i] = [];
-            for (let j = 0; j < this.BOARD_SIZE; j++) {
+            for (let j = 0; j < this.boardSize; j++) {
                 this.board[i][j] = null;
             }
         }
     }
 
     /**
-     *
-     * Adds a record of the missed coordinates.
-     * @param coords {object} Coordinates that missed.
+     * Adds a record for the hit and missed coordinates.
+     * @param {object} coords Coordinates that missed.
+     * @param {string} status Should be 'hit', 'miss', or 'intact'.
      */
     #addTracking(coords, status) {
         this.tracker.set(`${coords.x}${coords.y}`, status);
     }
 
     /**
+     * Check status of the given coordinates.
+     * @returns {string} The status.
+     */
+    checkState(x, y) {
+        if (this.tracker.has(`${x}${y}`)) {
+            return this.tracker.get(`${x}${y}`);
+        }
+
+        return 'blank';
+    }
+
+    // TODO: occupied
+
+    /**
      * Gets the size of the board.
      * @returns {number} Returns the size of the player's board.
      */
     getBoardSize() {
-        return this.BOARD_SIZE;
+        return this.boardSize;
     }
 
     /**
@@ -59,6 +74,7 @@ class Gameboard {
         // successful
         if (!this.board[x][y]) {
             this.board[x][y] = ship;
+            this.#addTracking({ x: x, y: y }, 'intact');
             return 0;
         }
 
@@ -70,7 +86,7 @@ class Gameboard {
      * Handle how coords X & Y receive the attack.
      * @param {number} x X coordinate.
      * @param {number} y Y coordinate.
-     * @returns {number} Returns 0 if successful, 1 if it misses, 2 if was already hit, and -1 for invalid.
+     * @returns {number} Returns 0 if successful, 1 if it misses, 2 if already hit, and -1 for invalid.
      */
     receiveAttack(x, y) {
         const b_size = this.getBoardSize();
@@ -80,15 +96,15 @@ class Gameboard {
             return -1;
         }
 
-        // already hit or missed
-        if (this.tracker.has(`${x}${y}`)) return 2;
+        const _status = this.tracker.get(`${x}${y}`);
 
-        if (this.board[x][y] && this.board[x][y] instanceof Ship) {
+        // already hit or missed
+        if (_status === 'hit' || _status === 'miss') return 2;
+
+        // successful
+        if (_status === 'intact') {
             this.board[x][y].hit();
             this.#addTracking({ x: x, y: y }, 'hit');
-
-            // TODO handle whether the ship is sunk or not
-
             return 0;
         }
 
