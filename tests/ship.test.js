@@ -18,14 +18,13 @@ describe('Ship is hit', () => {
         expect(ship.isSunk()).toBe(true);
     });
 
-
     test('Ship does not take hit if sunk', () => {
         const ship = new Ship(length);
 
         for (let i = 0; i < ship.length + 1; i++) {
             ship.hit();
         }
-       
+
         expect(ship.hits).toBe(ship.length);
     });
 });
