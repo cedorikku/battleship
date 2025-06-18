@@ -9,6 +9,13 @@ class Ship {
     }
 
     /**
+     * @returns How many times ship has been hit.
+     */
+    getHits() {
+        return this.hits;
+    }
+
+    /**
      * Activate if the ship has been hit.
      */
     hit() {
