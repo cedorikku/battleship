@@ -23,23 +23,34 @@ describe('Ship placements', () => {
 });
 
 describe('Receive ship hit', () => {
-    const gb = new Gameboard();
-    gb.placeShip(0, 0);
-
     test('Registers attack as hit', () => {
+        const gb = new Gameboard();
+        gb.placeShip(0, 0);
+
         expect(gb.receiveAttack(0, 0)).toBe(0);
     });
 
     test('Registers attack as miss', () => {
+        const gb = new Gameboard();
+        gb.placeShip(0, 0);
+
         expect(gb.receiveAttack(1, 1)).toBe(1);
     });
 
     test('Recognize space as already attacked', () => {
+        const gb = new Gameboard();
+        gb.placeShip(0, 0);
+        gb.placeShip(1, 1);
+        gb.receiveAttack(0, 0);
+        gb.receiveAttack(1, 1);
+
         expect(gb.receiveAttack(0, 0)).toBe(2);
         expect(gb.receiveAttack(1, 1)).toBe(2);
     });
 
     test('Rejects invalid spaces that are out of bounds', () => {
+        const gb = new Gameboard();
+
         expect(gb.receiveAttack(0, -1)).toBe(-1);
         expect(gb.receiveAttack(10, 10)).toBe(-1);
     });
