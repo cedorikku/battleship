@@ -25,6 +25,8 @@ describe('Ship is hit', () => {
             ship.hit();
         }
 
-        expect(ship.hits).toBe(ship.length);
+        // does not test implementation
+        // (e.g.) expect(ship.hits).toBe(ship.length)
+        expect(ship.isSunk()).toBe(true);
     });
 });
