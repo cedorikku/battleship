@@ -1,4 +1,4 @@
-import Config from './config.js'
+import Config from './config.js';
 import Ship from './ship.js';
 
 /**
@@ -45,8 +45,6 @@ class Gameboard {
         return 'blank';
     }
 
-    // TODO: occupied
-
     /**
      * Gets the size of the board.
      * @returns {number} Returns the size of the player's board.
@@ -57,30 +55,52 @@ class Gameboard {
 
     /**
      * Handle placing the root of the ship at coord x & y.
-     * @param {number} length length of the ship.
      * @param {number} x x coordinate.
      * @param {number} y y coordinate.
-     * @returns {number} Returns 0 if successful, 1 if occupied and -1 invalid.
+     * @param {number} length Length of the ship.
+     * @param {boolean} isVertical Orientation of the ship.
+     * @returns {number} Returns 0 if successful and -1 invalid.
      */
-    placeShip(x, y, length = 1) {
-        const ship = new Ship(length);
-        const b_size = this.getBoardSize();
-
-        // invalid
-        if (x >= b_size || (x < 0 && y > b_size) || y < 0) {
-            return -1;
+    placeShip(x, y, length, isVertical) {
+        if (length == null || isVertical == null) {
+            throw new Error(`Ship is not properly supplied ship ${length == null ? 'length' : 'orientation' }`);
         }
+
+        const ship = new Ship(length, true);
+
+        const status = this.validateMove(x, y, ship);
 
         // successful
-        if (!this.board[x][y]) {
-            this.board[x][y] = ship;
-            this.#addTracking({ x: x, y: y }, 'intact');
-            return 0;
+        if (status === 0) {
+            for (let i = 0; i <= length; i++) {
+                const _x = isVertical ? x + i : x;
+                const _y = !isVertical ? y + i : y;
+
+                this.board[_x][_y] = ship;
+                this.#addTracking({ x: _x, y: _y }, 'intact');
+            }
         }
 
-        // occupied
-        return 1;
+        return status;
     }
+
+    validateMove(x, y, ship) {
+        // FIX: length null invalid
+        const b_size = this.getBoardSize();
+
+        for (let i = 0; i < ship.length; i++) {
+            const _x = ship.isVertical ? x + i : x;
+            const _y = !ship.isVertical ? y + i : y;
+
+            if (_x >= b_size || _x < 0 || _y > b_size || _y < 0 || this.board[_x][_y]) {
+                return -1;
+            }
+        }
+
+        return 0;
+    }
+
+    // TODO: Rotate ship
 
     /**
      * Handle how coords X & Y receive the attack.
