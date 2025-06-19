@@ -74,18 +74,18 @@ class ScreenController {
      * @param {Player} enemy Current enemy of the turn.
      */
     renderBoards(player, enemy) {
-        const leftSide = document.getElementById('left-side');
-        const rightSide = document.getElementById('right-side');
+        const playerSide = document.getElementById('player-side');
+        const enemySide = document.getElementById('enemy-side');
 
         // clear it first, before any rendering
-        leftSide.replaceChildren();
-        rightSide.replaceChildren();
+        playerSide.replaceChildren();
+        enemySide.replaceChildren();
 
         const board1 = this.#createBoard(player && player.board);
-        leftSide.appendChild(board1);
+        playerSide.appendChild(board1);
 
         const board2 = this.#createEnemyBoard(enemy && enemy.board);
-        rightSide.appendChild(board2);
+        enemySide.appendChild(board2);
     }
 
     /* TODO: Show an output in the DOM depending on what status is received. */

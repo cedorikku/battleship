@@ -46,7 +46,7 @@ h1 {
     background-color: orange;
 }
 
-#right-side>.board>.blank:hover {
+#enemy-side>.board>.blank:hover {
     outline: 2px solid rgb(0, 0, 0, 0.6);
     z-index: 999;
 }
