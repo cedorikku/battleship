@@ -24,7 +24,7 @@ class ScreenController {
                 box.setAttribute('data-coords', `${i}${j}`);
 
                 if (boardState) {
-                    const _status = boardState.checkState(i, j);
+                    const _status = boardState.getState(i, j);
                     box.classList.add(_status);
                 }
 
@@ -56,7 +56,7 @@ class ScreenController {
 
                 // change enemy board behavior
                 if (boardState) {
-                    let _status = boardState.checkState(i, j);
+                    let _status = boardState.getState(i, j);
                     if (_status === 'intact') _status = 'blank';
                     box.classList.add(_status);
                 }

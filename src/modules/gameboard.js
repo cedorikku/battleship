@@ -37,7 +37,7 @@ class Gameboard {
      * Gets the status of the square.
      * @returns {string}
      */
-    checkState(x, y) {
+    getState(x, y) {
         if (this.tracker.has(`${x}${y}`)) {
             return this.tracker.get(`${x}${y}`);
         }
