@@ -20,10 +20,10 @@ class GameController {
     /** WIP Starts the game. */
     startGame() {
         const playerOne = new Player('Player 1', false);
-        this.#populateBoard(playerOne.board);
+        this.randomizeBoard(playerOne.board);
 
         const playerTwo = new Player('Computer', true);
-        this.#populateBoard(playerTwo.board);
+        this.randomizeBoard(playerTwo.board);
 
         // start the round with playerOne
         this.setCurrentPlayer(playerOne);
@@ -36,18 +36,26 @@ class GameController {
     }
 
     /**
-     * For temporarily populating the board with predetermined coords
+     * For randomly populating the board.
+     * @param {GameBoard} Players' board.
      */
-    #populateBoard(board) {
+    randomizeBoard(board) {
         // four ships
-        board.placeShip(0, 0);
-        board.placeShip(1, 0);
-        board.placeShip(2, 0);
-        board.placeShip(3, 0);
+
+        for (let s in Config.variants) {
+            let status = -1;
+            do {
+                const x = randomInt(Config.boardSize);
+                const y = randomInt(Config.boardSize);
+                const isVertical = randomInt(2) === 0 ? true : false;
+
+                status = board.placeShip(x, y, Config.variants[s], isVertical);
+            } while (status !== 0);
+        }
     }
 
     playRound(player, enemy) {
-        // TODO replace with a real message later
+        // TODO: replace with a real message later
         console.log(`${player.name}'s turn`);
 
         this.screen.renderBoards(player, enemy);
@@ -72,7 +80,7 @@ class GameController {
 
         // human player
         document
-            .querySelector('#right-side > .board')
+            .querySelector('#enemy-side > .board')
             .addEventListener('click', (e) => {
                 if (e.target.hasAttribute('data-coords')) {
                     const coords = e.target
@@ -96,6 +104,7 @@ class GameController {
             });
     }
 
+    /** TODO: Handles what to do after a successful move by the player  */
     handleMoveResult(status) {
         this.screen.showMessage(status);
     }
