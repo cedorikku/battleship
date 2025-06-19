@@ -1,8 +1,7 @@
 import Config from './config.js';
-import Ship from './ship.js';
 
 class ScreenController {
-    constructor() {}
+    constructor() { }
 
     /**
      * Handles rendering current enemy players' board in the DOM.
@@ -26,6 +25,14 @@ class ScreenController {
                 if (currentBoard) {
                     const _status = currentBoard.getState(i, j);
                     box.classList.add(_status);
+
+                    const _shipExists = currentBoard.peek(i, j);
+                    if (_shipExists) {
+                        box.setAttribute(
+                            'data-id',
+                            currentBoard.peek(i, j).getId(),
+                        );
+                    }
                 }
 
                 board.appendChild(box);
@@ -49,6 +56,8 @@ class ScreenController {
 
         const b_size = Config.boardSize;
 
+        // TODO: Show board labels
+
         for (let i = 0; i < b_size; i++) {
             for (let j = 0; j < b_size; j++) {
                 const box = document.createElement('div');
@@ -68,8 +77,8 @@ class ScreenController {
         return board;
     }
 
-    /** 
-     * Handles rendering ender both players' boards in the DOM 
+    /**
+     * Handles rendering ender both players' boards in the DOM
      * @param {Player} player Current player of the turn.
      * @param {Player} enemy Current enemy of the turn.
      */

@@ -23,16 +23,13 @@ h1 {
     display: grid;
     grid-template-columns: repeat(10, 50px);
     grid-template-rows: repeat(10, 50px);
-    border-bottom: 1px solid var(--border-color);
-    border-left: 1px solid var(--border-color);
 }
 
 .board>div {
     padding: 15px;
     text-align: center;
-    border-top: 1px solid var(--border-color);
-    border-right: 1px solid var(--border-color);
-}
+    border: 1px solid black;
+    margin: 0 -1px  -1px 0;}
 
 .board>.intact {
     background-color: rgb(0, 0, 255, 0.5);
@@ -43,10 +40,10 @@ h1 {
 }
 
 .board>.miss {
-    background-color: orange;
+    background-color: lightgrey;
 }
 
 #enemy-side>.board>.blank:hover {
-    outline: 2px solid rgb(0, 0, 0, 0.6);
+    outline: 2px solid rgb(0, 0, 0, 1);
     z-index: 999;
 }
