@@ -13,10 +13,10 @@ describe('Ship placements', () => {
     // occupied or out of bounds
     test('Rejects unavailable and invalid root placement for the ship', () => {
         const gb = new Gameboard();
-        gb.placeShip(0, 0, 2, true); // vertical ship with 2 length
 
         // space is already occupied
-        expect(gb.placeShip(0, 0, 2, true)).toBe(-1);
+        gb.placeShip(0, 0, 2, true); // vertical ship with 2 length
+        expect(gb.placeShip(1, 0, 2, true)).toBe(-1);
 
         // out of bounds
         expect(gb.placeShip(-1, 11, 2, true)).toBe(-1);
@@ -27,9 +27,15 @@ describe('Ship placements', () => {
 
     test('Rejects placements where an adjacent ship is placed', () => {
         const gb = new Gameboard();
-        gb.placeShip(0, 0, 2, true); // vertical ship with 2 length
 
+        gb.placeShip(0, 0, 2, true); // vertical ship with 2 length
         expect(gb.placeShip(0, 1, 3, true)).toBe(-1);
+
+        gb.placeShip(2, 2, 3, true); // vertical ship with 3 length
+        expect(gb.placeShip(3, 0, 2, false)).toBe(-1);
+
+        gb.placeShip(6, 7, 2, true); // vertical ship with 2 length
+        expect(gb.placeShip(8, 7, 2, true)).toBe(-1);
     });
 });
 
@@ -38,7 +44,6 @@ describe('Handles rotation correctly', () => {
     test.skip('Rotates with available space', () => {
         const gb = new Gameboard();
         gb.placeShip(0, 0, 2, true); // vertical ship with 2 length
-
     });
 });
 
