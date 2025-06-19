@@ -92,7 +92,7 @@ class Gameboard {
             const _x = ship.isVertical ? x + i : x;
             const _y = !ship.isVertical ? y + i : y;
 
-            if (_x >= b_size || _x < 0 || _y > b_size || _y < 0 || this.board[_x][_y]) {
+            if (_x >= b_size || _x < 0 || _y >= b_size || _y < 0 || this.board[_x][_y]) {
                 return -1;
             }
         }
@@ -112,7 +112,7 @@ class Gameboard {
         const b_size = this.getBoardSize();
 
         // invalid
-        if (x >= b_size || x < 0 || y > b_size || y < 0) {
+        if (x >= b_size || x < 0 || y >= b_size || y < 0) {
             return -1;
         }
 
