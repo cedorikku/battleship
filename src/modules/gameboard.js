@@ -72,7 +72,7 @@ class Gameboard {
 
         // successful
         if (status === 0) {
-            for (let i = 0; i <= length; i++) {
+            for (let i = 0; i < length; i++) {
                 const _x = isVertical ? x + i : x;
                 const _y = !isVertical ? y + i : y;
 
