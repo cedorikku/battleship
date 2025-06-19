@@ -96,7 +96,7 @@ class Gameboard {
 
         for (let i = 0; i < length; i++) {
             const _x = isVertical ? x + i : x;
-            const _y = isVertical ? y + i : y;
+            const _y = !isVertical ? y + i : y;
 
             // out of bounds
             if (
@@ -110,10 +110,10 @@ class Gameboard {
             }
 
             // Checks for adjacent ships
-            for (let i = -1; i < 2; i++) {
-                for (let j = -1; j < 2; j++) {
-                    const __x = _x + i;
-                    const __y = _y + j;
+            for (let l = -1; l < 2; l++) {
+                for (let m = -1; m < 2; m++) {
+                    const __x = _x + l;
+                    const __y = _y + m;
                     // center
                     if (__x < 0 || __x >= b_size || __y < 0 || __y >= b_size)
                         continue;
@@ -139,8 +139,6 @@ class Gameboard {
     peek(x, y) {
         return this.board[x][y];
     }
-
-    // TODO: Rotate ship
 
     /**
      * Handle a square receives the attack.
