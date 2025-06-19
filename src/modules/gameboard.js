@@ -118,7 +118,7 @@ class Gameboard {
                     if (__x < 0 || __x >= b_size || __y < 0 || __y >= b_size)
                         continue;
 
-                    if (__x === _x || __y === _y) continue;
+                    if (__x === _x && __y === _y) continue;
 
                     if (this.peek(__x, __y)) {
                         return -1;
