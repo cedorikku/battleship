@@ -171,7 +171,6 @@ class Gameboard {
         }
 
         // mark as miss
-        this.board[x][y] = 'miss';
         this.#addTracking({ x: x, y: y }, 'miss');
         return 1;
     }
