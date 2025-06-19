@@ -1,9 +1,9 @@
-// import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 /**
  * Ship
  */
 class Ship {
-    constructor(length, isVertical, id = crypto.randomUUID()) {
+    constructor(length, isVertical, id = uuidv4()) {
         this.id = id;
         this.length = length;
         this.isVertical = isVertical;
@@ -34,9 +34,6 @@ class Ship {
         return this.length === this.hits;
     }
 
-    /**
-     * Tells the unique name of the ship
-     */
     setId(id) {
         this.id = id;
     }
