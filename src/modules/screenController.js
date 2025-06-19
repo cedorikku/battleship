@@ -2,11 +2,15 @@ import Config from './config.js';
 import Ship from './ship.js';
 
 class ScreenController {
-    constructor() { }
+    constructor() {}
 
     /**
-     * Accepts board state to figure out how to show the board
-     * Creates a coords with a 2-digit string
+     * Handles rendering current enemy players' board in the DOM.
+     * Accepts board state to figure out how to show the board.
+     * Creates each box with coords having a 2-digit string.
+     *
+     * @param {object} boardState Contains the current player's gameboard.
+     * @returns {Element} A decorated grid for the current player.
      */
     #createBoard(boardState) {
         const board = document.createElement('div');
@@ -31,6 +35,14 @@ class ScreenController {
         return board;
     }
 
+    /**
+     * Handles rendering current enemy players' board in the DOM.
+     * Accepts board state to figure out how to show the board.
+     * Creates each box with coords having a 2-digit string.
+     *
+     * @param {object} boardState Contains the current enemy's gameboard.
+     * @returns {Element} A decorated grid for the current enemy.
+     */
     #createEnemyBoard(boardState) {
         const board = document.createElement('div');
         board.classList.add('board');
@@ -56,6 +68,7 @@ class ScreenController {
         return board;
     }
 
+    /** Handles rendering ender both players' boards in the DOM */
     renderBoards(player, enemy) {
         const leftSide = document.getElementById('left-side');
         const rightSide = document.getElementById('right-side');
@@ -64,37 +77,26 @@ class ScreenController {
         leftSide.replaceChildren();
         rightSide.replaceChildren();
 
-        if (!player) {
-            // initial render
-            const board1 = this.#createBoard(null);
-            leftSide.appendChild(board1);
-        } else {
-            const board1 = this.#createBoard(player.board);
-            leftSide.appendChild(board1);
-        }
+        const board1 = this.#createBoard(player && player.board);
+        leftSide.appendChild(board1);
 
-        if (!enemy) {
-            const board2 = this.#createEnemyBoard(null);
-            rightSide.appendChild(board2);
-            return;
-        } else {
-            const board2 = this.#createEnemyBoard(enemy.board);
-            rightSide.appendChild(board2);
-        }
+        const board2 = this.#createEnemyBoard(enemy && enemy.board);
+        rightSide.appendChild(board2);
     }
 
+    /* TODO: Show an output in the DOM depending on what status is received. */
+    /* NOTE: Possible to have it more creative than just showing a message  */
     showMessage(status) {
         switch (status) {
             case 0:
                 // ship was hit message
-                console.log('A ship was hit')
-                // is ship sunk?
+                console.log('A ship was hit');
                 break;
             case 1:
-                console.log('Attack missed')
+                console.log('Attack missed');
                 break;
             case 2:
-                console.log('Invalid move')
+                console.log('Invalid move');
                 break;
         }
     }
