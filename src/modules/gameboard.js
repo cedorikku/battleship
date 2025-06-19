@@ -95,16 +95,16 @@ class Gameboard {
         const b_size = this.getBoardSize();
 
         for (let i = 0; i < length; i++) {
-            const _x = isVertical ? x + i : x;
-            const _y = !isVertical ? y + i : y;
+            const sourceX = isVertical ? x + i : x;
+            const sourceY = !isVertical ? y + i : y;
 
             // out of bounds
             if (
-                _x < 0 ||
-                _x >= b_size ||
-                _y < 0 ||
-                _y >= b_size ||
-                this.peek(_x, _y)
+                sourceX < 0 ||
+                sourceX >= b_size ||
+                sourceY < 0 ||
+                sourceY >= b_size ||
+                this.peek(sourceX, sourceY)
             ) {
                 return -1;
             }
@@ -112,15 +112,15 @@ class Gameboard {
             // Checks for adjacent ships
             for (let l = -1; l < 2; l++) {
                 for (let m = -1; m < 2; m++) {
-                    const __x = _x + l;
-                    const __y = _y + m;
+                    const adjX = sourceX + l;
+                    const adjY = sourceY + m;
                     // center
-                    if (__x < 0 || __x >= b_size || __y < 0 || __y >= b_size)
+                    if (adjX < 0 || adjX >= b_size || adjY < 0 || adjY >= b_size)
                         continue;
 
-                    if (__x === _x && __y === _y) continue;
+                    if (adjX === sourceX && adjY === sourceY) continue;
 
-                    if (this.peek(__x, __y)) {
+                    if (this.peek(adjX, adjY)) {
                         return -1;
                     }
                 }
