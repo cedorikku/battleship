@@ -15,18 +15,30 @@ describe('Ship placements', () => {
         const gb = new Gameboard();
         gb.placeShip(0, 0, 2, true); // vertical ship with 2 length
 
+        // space is already occupied
         expect(gb.placeShip(0, 0, 2, true)).toBe(-1);
+
+        // out of bounds
         expect(gb.placeShip(-1, 11, 2, true)).toBe(-1);
+        expect(gb.placeShip(5, 9, 2, false)).toBe(-1);
     });
 
     // TODO: Add test case to reject invalid body-tail placement
 
-    // TODO: Add test case where you cannot place in other adjacent ship placements
     test('Rejects placements where an adjacent ship is placed', () => {
         const gb = new Gameboard();
         gb.placeShip(0, 0, 2, true); // vertical ship with 2 length
 
         expect(gb.placeShip(0, 1, 3, true)).toBe(-1);
+    });
+});
+
+// TODO: Test rotation methods
+describe('Handles rotation correctly', () => {
+    test.skip('Rotates with available space', () => {
+        const gb = new Gameboard();
+        gb.placeShip(0, 0, 2, true); // vertical ship with 2 length
+
     });
 });
 
