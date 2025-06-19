@@ -9,10 +9,10 @@ class ScreenController {
      * Accepts board state to figure out how to show the board.
      * Creates each box with coords having a 2-digit string.
      *
-     * @param {object} boardState Contains the current player's gameboard.
+     * @param {object} currentBoard Contains the current player's gameboard.
      * @returns {Element} A decorated grid for the current player.
      */
-    #createBoard(boardState) {
+    #createBoard(currentBoard) {
         const board = document.createElement('div');
         board.classList.add('board');
 
@@ -23,8 +23,8 @@ class ScreenController {
                 const box = document.createElement('div');
                 box.setAttribute('data-coords', `${i}${j}`);
 
-                if (boardState) {
-                    const _status = boardState.getState(i, j);
+                if (currentBoard) {
+                    const _status = currentBoard.getState(i, j);
                     box.classList.add(_status);
                 }
 
@@ -40,10 +40,10 @@ class ScreenController {
      * Accepts board state to figure out how to show the board.
      * Creates each box with coords having a 2-digit string.
      *
-     * @param {object} boardState Contains the current enemy's gameboard.
+     * @param {object} currentBoard Contains the current enemy's gameboard.
      * @returns {Element} A decorated grid for the current enemy.
      */
-    #createEnemyBoard(boardState) {
+    #createEnemyBoard(currentBoard) {
         const board = document.createElement('div');
         board.classList.add('board');
 
@@ -55,8 +55,8 @@ class ScreenController {
                 box.setAttribute('data-coords', `${i}${j}`);
 
                 // change enemy board behavior
-                if (boardState) {
-                    let _status = boardState.getState(i, j);
+                if (currentBoard) {
+                    let _status = currentBoard.getState(i, j);
                     if (_status === 'intact') _status = 'blank';
                     box.classList.add(_status);
                 }
