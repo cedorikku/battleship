@@ -63,11 +63,10 @@ class Gameboard {
      */
     placeShip(x, y, length, isVertical = true) {
         if (length == null) {
-            throw new Error(
-                `The length of the ship is not properly supplied`,
-            );
+            throw new Error(`The length of the ship is not properly supplied`);
         }
 
+        const ship = new Ship(length, isVertical);
         const status = this.validateSquare(x, y, length, isVertical);
 
         // successful
@@ -76,7 +75,7 @@ class Gameboard {
                 const _x = isVertical ? x + i : x;
                 const _y = !isVertical ? y + i : y;
 
-                this.board[_x][_y] = new Ship(length, isVertical);
+                this.board[_x][_y] = ship;
                 this.#addTracking({ x: _x, y: _y }, 'intact');
             }
         }
@@ -115,7 +114,12 @@ class Gameboard {
                     const adjX = sourceX + l;
                     const adjY = sourceY + m;
                     // center
-                    if (adjX < 0 || adjX >= b_size || adjY < 0 || adjY >= b_size)
+                    if (
+                        adjX < 0 ||
+                        adjX >= b_size ||
+                        adjY < 0 ||
+                        adjY >= b_size
+                    )
                         continue;
 
                     if (adjX === sourceX && adjY === sourceY) continue;
