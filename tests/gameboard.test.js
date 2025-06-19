@@ -6,8 +6,8 @@ describe('Ship placements', () => {
     test('Accepts free spaces', () => {
         const gb = new Gameboard();
         expect(gb.placeShip(0, 0, 2, true)).toBe(0); // vertical ship with 2 length
-        expect(gb.placeShip(0, 1, 3, true)).toBe(0); // vertical ship with 3 length
-        expect(gb.placeShip(0, 2, 4, true)).toBe(0); // vertical ship with 4 length
+        expect(gb.placeShip(0, 2, 3, true)).toBe(0); // vertical ship with 3 length
+        expect(gb.placeShip(0, 4, 4, true)).toBe(0); // vertical ship with 4 length
     });
 
     // occupied or out of bounds
