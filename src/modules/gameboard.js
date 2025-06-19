@@ -34,8 +34,8 @@ class Gameboard {
     }
 
     /**
-     * Check status of the given coordinates.
-     * @returns {string} The status.
+     * Gets the status of the square.
+     * @returns {string}
      */
     checkState(x, y) {
         if (this.tracker.has(`${x}${y}`)) {
@@ -46,20 +46,20 @@ class Gameboard {
     }
 
     /**
-     * Gets the size of the board.
-     * @returns {number} Returns the size of the player's board.
+     * Gets the size of the player's board.
+     * @returns {number}
      */
     getBoardSize() {
         return this.boardSize;
     }
 
     /**
-     * Handle placing the root of the ship at coord x & y.
-     * @param {number} x x coordinate.
-     * @param {number} y y coordinate.
+     * Handle placing the root of the ship at a square.
+     * @param {number} x X coordinate.
+     * @param {number} y Y coordinate.
      * @param {number} length Length of the ship.
      * @param {boolean} isVertical Orientation of the ship.
-     * @returns {number} Returns 0 if successful and -1 invalid.
+     * @returns {number} 0 if successful and -1 invalid.
      */
     placeShip(x, y, length, isVertical) {
         if (length == null || isVertical == null) {
@@ -84,8 +84,8 @@ class Gameboard {
         return status;
     }
 
-    /** 
-     * Validates a specific coordinate to check its availability and adjacent squares.
+    /**
+     * Validates a square to check its availability and looks for problems in adjacent squares.
      * @param {number} x X coordinate.
      * @param {number} y Y coordinate.
      * @param {number} length Length of the ship to be validated.
@@ -130,12 +130,11 @@ class Gameboard {
         return 0;
     }
 
-
     /**
      * Gets the value of a square is a ship or something else.
      * @param {number} x X coordinate.
      * @param {number} y Y coordinate.
-     * @returns {null|object}
+     * @returns {null|object} A Ship object or null
      */
     peek(x, y) {
         return this.board[x][y];
@@ -144,7 +143,7 @@ class Gameboard {
     // TODO: Rotate ship
 
     /**
-     * Handle how coords X & Y receive the attack.
+     * Handle a square receives the attack.
      * @param {number} x X coordinate.
      * @param {number} y Y coordinate.
      * @returns {number} Returns 0 if successful, 1 if it misses, 2 if already hit, and -1 for invalid.
