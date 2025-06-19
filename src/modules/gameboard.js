@@ -63,12 +63,12 @@ class Gameboard {
      */
     placeShip(x, y, length, isVertical) {
         if (length == null || isVertical == null) {
-            throw new Error(`Ship is not properly supplied ship ${length == null ? 'length' : 'orientation' }`);
+            throw new Error(
+                `Ship is not properly supplied ship ${length == null ? 'length' : 'orientation'}`,
+            );
         }
 
-        const ship = new Ship(length, true);
-
-        const status = this.validateMove(x, y, ship);
+        const status = this.validateSquare(x, y, length, isVertical);
 
         // successful
         if (status === 0) {
@@ -76,7 +76,7 @@ class Gameboard {
                 const _x = isVertical ? x + i : x;
                 const _y = !isVertical ? y + i : y;
 
-                this.board[_x][_y] = ship;
+                this.board[_x][_y] = new Ship(length, isVertical);
                 this.#addTracking({ x: _x, y: _y }, 'intact');
             }
         }
@@ -84,20 +84,61 @@ class Gameboard {
         return status;
     }
 
-    validateMove(x, y, ship) {
-        // FIX: length null invalid
+    /** 
+     * Validates a specific coordinate to check its availability and adjacent squares.
+     * @param {number} x X coordinate.
+     * @param {number} y Y coordinate.
+     * @param {number} length Length of the ship to be validated.
+     * @param {boolean} isVertical Orientation of the ship.
+     */
+    validateSquare(x, y, length, isVertical) {
         const b_size = this.getBoardSize();
 
-        for (let i = 0; i < ship.length; i++) {
-            const _x = ship.isVertical ? x + i : x;
-            const _y = !ship.isVertical ? y + i : y;
+        for (let i = 0; i < length; i++) {
+            const _x = isVertical ? x + i : x;
+            const _y = isVertical ? y + i : y;
 
-            if (_x >= b_size || _x < 0 || _y >= b_size || _y < 0 || this.board[_x][_y]) {
+            // out of bounds
+            if (
+                _x < 0 ||
+                _x >= b_size ||
+                _y < 0 ||
+                _y >= b_size ||
+                this.peek(_x, _y)
+            ) {
                 return -1;
+            }
+
+            // Checks for adjacent ships
+            for (let i = -1; i < 2; i++) {
+                for (let j = -1; j < 2; j++) {
+                    const __x = _x + i;
+                    const __y = _y + j;
+                    // center
+                    if (__x < 0 || __x >= b_size || __y < 0 || __y >= b_size)
+                        continue;
+
+                    if (__x === _x || __y === _y) continue;
+
+                    if (this.peek(__x, __y)) {
+                        return -1;
+                    }
+                }
             }
         }
 
         return 0;
+    }
+
+
+    /**
+     * Gets the value of a square is a ship or something else.
+     * @param {number} x X coordinate.
+     * @param {number} y Y coordinate.
+     * @returns {null|object}
+     */
+    peek(x, y) {
+        return this.board[x][y];
     }
 
     // TODO: Rotate ship
