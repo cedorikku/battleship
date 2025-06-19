@@ -58,13 +58,13 @@ class Gameboard {
      * @param {number} x X coordinate.
      * @param {number} y Y coordinate.
      * @param {number} length Length of the ship.
-     * @param {boolean} isVertical Orientation of the ship.
+     * @param {boolean} isVertical Orientation of the ship. Defaults to true.
      * @returns {number} 0 if successful and -1 invalid.
      */
-    placeShip(x, y, length, isVertical) {
-        if (length == null || isVertical == null) {
+    placeShip(x, y, length, isVertical = true) {
+        if (length == null) {
             throw new Error(
-                `Ship is not properly supplied ship ${length == null ? 'length' : 'orientation'}`,
+                `The length of the ship is not properly supplied`,
             );
         }
 
