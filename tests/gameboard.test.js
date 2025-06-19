@@ -20,6 +20,14 @@ describe('Ship placements', () => {
     });
 
     // TODO: Add test case to reject invalid body-tail placement
+
+    // TODO: Add test case where you cannot place in other adjacent ship placements
+    test('Rejects placements where an adjacent ship is placed', () => {
+        const gb = new Gameboard();
+        gb.placeShip(0, 0, 2, true); // vertical ship with 2 length
+
+        expect(gb.placeShip(0, 1, 3, true)).toBe(-1);
+    });
 });
 
 describe('Receive ship hit', () => {
