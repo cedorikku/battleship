@@ -68,7 +68,11 @@ class ScreenController {
         return board;
     }
 
-    /** Handles rendering ender both players' boards in the DOM */
+    /** 
+     * Handles rendering ender both players' boards in the DOM 
+     * @param {Player} player Current player of the turn.
+     * @param {Player} enemy Current enemy of the turn.
+     */
     renderBoards(player, enemy) {
         const leftSide = document.getElementById('left-side');
         const rightSide = document.getElementById('right-side');
