@@ -42,14 +42,15 @@ class GameController {
     randomizeBoard(board) {
         // four ships
 
-        for (let s in Config.variants) {
+        for (let key in Config.variants) {
             let status = -1;
             do {
                 const x = randomInt(Config.boardSize);
                 const y = randomInt(Config.boardSize);
+                const length = Config.variants[key];
                 const isVertical = randomInt(2) === 0 ? true : false;
 
-                status = board.placeShip(x, y, Config.variants[s], isVertical, s);
+                status = board.placeShip(x, y, length, isVertical, key);
             } while (status !== 0);
         }
     }
