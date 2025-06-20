@@ -26,12 +26,11 @@ class Gameboard {
     }
 
     /**
-     * Adds a record for the hit and missed coordinates.
-     * @param {object} coords Coordinates that missed.
-     * @param {string} status Should be 'hit', 'miss', or 'intact'.
+     * Gets the size of the player's board.
+     * @returns {number}
      */
-    #addTracking(coords, status) {
-        this.tracker.set(`${coords.x}${coords.y}`, status);
+    getBoardSize() {
+        return this.boardSize;
     }
 
     /**
@@ -47,11 +46,13 @@ class Gameboard {
     }
 
     /**
-     * Gets the size of the player's board.
-     * @returns {number}
+     * Gets the value of a square is a ship or something else.
+     * @param {number} x X coordinate.
+     * @param {number} y Y coordinate.
+     * @returns {null|object} A Ship object or null
      */
-    getBoardSize() {
-        return this.boardSize;
+    peek(x, y) {
+        return this.board[x][y];
     }
 
     /**
@@ -137,16 +138,6 @@ class Gameboard {
     }
 
     /**
-     * Gets the value of a square is a ship or something else.
-     * @param {number} x X coordinate.
-     * @param {number} y Y coordinate.
-     * @returns {null|object} A Ship object or null
-     */
-    peek(x, y) {
-        return this.board[x][y];
-    }
-
-    /**
      * Handle a square receives the attack.
      * @param {number} x X coordinate.
      * @param {number} y Y coordinate.
@@ -175,6 +166,15 @@ class Gameboard {
         // mark as miss
         this.#addTracking({ x: x, y: y }, 'miss');
         return 1;
+    }
+
+    /**
+     * Adds a record for the hit and missed coordinates.
+     * @param {object} coords Coordinates that missed.
+     * @param {string} status Should be 'hit', 'miss', or 'intact'.
+     */
+    #addTracking(coords, status) {
+        this.tracker.set(`${coords.x}${coords.y}`, status);
     }
 }
 
