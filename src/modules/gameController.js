@@ -49,7 +49,7 @@ class GameController {
                 const y = randomInt(Config.boardSize);
                 const isVertical = randomInt(2) === 0 ? true : false;
 
-                status = board.placeShip(x, y, Config.variants[s], isVertical);
+                status = board.placeShip(x, y, Config.variants[s], isVertical, s);
             } while (status !== 0);
         }
     }
@@ -104,9 +104,14 @@ class GameController {
             });
     }
 
-    /** TODO: Handles what to do after a successful move by the player  */
+    /** TODO: Handles what to do after a successful move by the player
+     *   shows a feedback on the screen
+     * - check if all ship is sunk
+     */
     handleMoveResult(status) {
         this.screen.showMessage(status);
+
+        // check if ship is sunk
     }
 }
 
