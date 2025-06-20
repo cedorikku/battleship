@@ -2,6 +2,12 @@
  * Ship
  */
 class Ship {
+    /**
+     * Creates an instance of Ship.
+     * @param {number} length The length of the ship.
+     * @param {boolean} isVertical Orientation of the ship.
+     * @param {string} id Unique identifier of the ship.
+     */
     constructor(length, isVertical, id) {
         this.hits = 0;
         this.length = length;
