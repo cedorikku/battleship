@@ -1,5 +1,6 @@
 import Config from './config.js';
 import Ship from './ship.js';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Represents the battleship gameboard of a player
@@ -59,14 +60,15 @@ class Gameboard {
      * @param {number} y Y coordinate.
      * @param {number} length Length of the ship.
      * @param {boolean} isVertical Orientation of the ship. Defaults to true.
+     * @param {number} id Unique identifier of the ship.
      * @returns {number} 0 if successful and -1 invalid.
      */
-    placeShip(x, y, length, isVertical = true) {
+    placeShip(x, y, length, isVertical = true, id = uuidv4()) {
         if (length == null) {
             throw new Error(`The length of the ship is not properly supplied`);
         }
 
-        const ship = new Ship(length, isVertical);
+        const ship = new Ship(length, isVertical, id);
         const status = this.validateSquare(x, y, length, isVertical);
 
         // successful

@@ -1,13 +1,12 @@
-import { v4 as uuidv4 } from 'uuid';
 /**
  * Ship
  */
 class Ship {
-    constructor(length, isVertical, id = uuidv4()) {
-        this.id = id;
+    constructor(length, isVertical, id) {
+        this.hits = 0;
         this.length = length;
         this.isVertical = isVertical;
-        this.hits = 0;
+        this.id = id;
     }
 
     /**
