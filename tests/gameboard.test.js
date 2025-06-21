@@ -1,5 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
 import Gameboard from '../src/modules/gameboard';
+import Ship from '../src/modules/ship';
 
 describe('Ship placements', () => {
     // places a ship in 0, 0
@@ -39,11 +40,40 @@ describe('Ship placements', () => {
     });
 });
 
-// TODO: Test rotation methods
-describe('Handles rotation correctly', () => {
-    test.skip('Rotates with available space', () => {
+describe('Root', () => {
+    test('Finds the root of a placed ship', () => {
         const gb = new Gameboard();
         gb.placeShip(0, 0, 2, true); // vertical ship with 2 length
+        expect(gb.getRoot(1, 0)).toEqual({ x: 0, y: 0 });
+
+        gb.placeShip(3, 0, 3, true); // vertical ship with 3 length
+        expect(gb.getRoot(3, 0)).toEqual({ x: 3, y: 0 });
+        expect(gb.getRoot(4, 0)).toEqual({ x: 3, y: 0 });
+        expect(gb.getRoot(5, 0)).toEqual({ x: 3, y: 0 });
+
+        gb.placeShip(0, 2, 3, false); // horizontal ship with 3 length
+        expect(gb.getRoot(0, 2)).toEqual({ x: 0, y: 2 });
+        expect(gb.getRoot(0, 3)).toEqual({ x: 0, y: 2 });
+        expect(gb.getRoot(0, 4)).toEqual({ x: 0, y: 2 });
+    });
+});
+
+// TODO: Continue testing rotation methods
+describe('Handles rotation correctly', () => {
+    test('Rotates when there is available space', () => {
+        const gb = new Gameboard();
+
+        gb.placeShip(0, 0, 2, true); // vertical ship with 2 length
+        expect(gb.rotateShip(0, 0)).toBe(0);
+        expect(gb.peek(0, 1)).toEqual(gb.peek(0, 0));
+        expect(gb.peek(1, 0)).toBeNull();
+
+        gb.placeShip(3, 0, 3, true); // vertical ship with 3 length
+        expect(gb.rotateShip(3, 0)).toBe(0);
+        expect(gb.peek(4, 0)).toBeNull();
+        expect(gb.peek(5, 0)).toBeNull();
+        expect(gb.peek(3, 1, true)).toEqual(gb.peek(3, 0));
+        expect(gb.peek(3, 2, true)).toEqual(gb.peek(3, 0));
     });
 });
 
@@ -84,5 +114,8 @@ describe('Receive ship hit', () => {
         expect(gb.receiveAttack(10, 10)).toBe(-1);
     });
 
-    // TODO a ship has been sunk
+    // TODO: a ship has been sunk
+    test.skip('Recognizes a ship has been sunk', () => {
+        const gb = new Gameboard();
+    });
 });
