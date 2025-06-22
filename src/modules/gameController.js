@@ -20,7 +20,7 @@ class GameController {
     /** WIP Starts the game. */
     startGame() {
         const playerOne = new Player('Player 1', false);
-        this.randomizeBoard(playerOne.board);
+        this.#populateBoard(playerOne.board);
 
         const playerTwo = new Player('Computer', true);
         this.randomizeBoard(playerTwo.board);
@@ -52,6 +52,22 @@ class GameController {
 
                 status = board.placeShip(x, y, length, isVertical, key);
             } while (status !== 0);
+        }
+    }
+
+    /**
+     * For arbitrarily populating the board.
+     * @param {GameBoard} Players' board.
+     */
+    #populateBoard(board) {
+        let y = 0;
+        for (let [key, value] of Object.entries(Config.variants)) {
+            const x = 0;
+            const length = value;
+            const isVertical = true;
+
+            board.placeShip(x, y, length, isVertical, key);
+            y += 2;
         }
     }
 
