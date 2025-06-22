@@ -60,14 +60,16 @@ class ScreenController {
 
         for (let i = 0; i < b_size; i++) {
             for (let j = 0; j < b_size; j++) {
-                const box = document.createElement('div');
+                const box = document.createElement('button');
                 box.setAttribute('data-coords', `${i}${j}`);
 
                 // change enemy board behavior
                 if (currentBoard) {
-                    let _status = currentBoard.getState(i, j);
-                    if (_status === 'intact') _status = 'blank';
-                    box.classList.add(_status);
+                    let status = currentBoard.getState(i, j);
+                    if (status === 'miss' || status === 'hit')
+                        box.disabled = true;
+                    if (status === 'intact') status = 'blank';
+                    box.classList.add(status);
                 }
 
                 board.appendChild(box);
