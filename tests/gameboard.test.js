@@ -40,21 +40,21 @@ describe('Ship placements', () => {
     });
 });
 
-describe('Root', () => {
+describe('Handles getting the root correctly', () => {
     test('Finds the root of a placed ship', () => {
         const gb = new Gameboard();
-        gb.placeShip(0, 0, 2, true); // vertical ship with 2 length
-        expect(gb.getRoot(1, 0)).toEqual({ x: 0, y: 0 });
+        gb.placeShip(0, 0, 2, true, 'ship1'); // vertical ship with 2 length
+        expect(gb.getRoot('ship1')).toEqual({ x: 0, y: 0 });
 
-        gb.placeShip(3, 0, 3, true); // vertical ship with 3 length
-        expect(gb.getRoot(3, 0)).toEqual({ x: 3, y: 0 });
-        expect(gb.getRoot(4, 0)).toEqual({ x: 3, y: 0 });
-        expect(gb.getRoot(5, 0)).toEqual({ x: 3, y: 0 });
+        gb.placeShip(3, 0, 3, true, 'ship2'); // vertical ship with 3 length
+        expect(gb.getRoot('ship2')).toEqual({ x: 3, y: 0 });
+        expect(gb.getRoot('ship2')).toEqual({ x: 3, y: 0 });
+        expect(gb.getRoot('ship2')).toEqual({ x: 3, y: 0 });
 
-        gb.placeShip(0, 2, 3, false); // horizontal ship with 3 length
-        expect(gb.getRoot(0, 2)).toEqual({ x: 0, y: 2 });
-        expect(gb.getRoot(0, 3)).toEqual({ x: 0, y: 2 });
-        expect(gb.getRoot(0, 4)).toEqual({ x: 0, y: 2 });
+        gb.placeShip(0, 2, 3, false, 'ship3'); // horizontal ship with 3 length
+        expect(gb.getRoot('ship3')).toEqual({ x: 0, y: 2 });
+        expect(gb.getRoot('ship3')).toEqual({ x: 0, y: 2 });
+        expect(gb.getRoot('ship3')).toEqual({ x: 0, y: 2 });
     });
 });
 
@@ -63,13 +63,13 @@ describe('Handles rotation correctly', () => {
     test('Rotates when there is available space', () => {
         const gb = new Gameboard();
 
-        gb.placeShip(0, 0, 2, true); // vertical ship with 2 length
-        expect(gb.rotateShip(0, 0)).toBe(0);
+        gb.placeShip(0, 0, 2, true, 'ship1'); // vertical ship with 2 length
+        expect(gb.rotateShip('ship1')).toBe(0);
         expect(gb.peek(0, 1)).toEqual(gb.peek(0, 0));
         expect(gb.peek(1, 0)).toBeNull();
 
-        gb.placeShip(3, 0, 3, true); // vertical ship with 3 length
-        expect(gb.rotateShip(3, 0)).toBe(0);
+        gb.placeShip(3, 0, 3, true, 'ship2'); // vertical ship with 3 length
+        expect(gb.rotateShip('ship2')).toBe(0);
         expect(gb.peek(4, 0)).toBeNull();
         expect(gb.peek(5, 0)).toBeNull();
         expect(gb.peek(3, 1, true)).toEqual(gb.peek(3, 0));
