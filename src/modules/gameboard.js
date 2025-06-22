@@ -38,6 +38,11 @@ class Gameboard {
      * @returns {string}
      */
     getState(x, y) {
+        const b_size = this.getBoardSize();
+        if (x < 0 || x >= b_size || y < 0 || y >= b_size) {
+            return null;
+        }
+
         if (this.tracker.has(`${x}${y}`)) {
             return this.tracker.get(`${x}${y}`);
         }
@@ -46,13 +51,92 @@ class Gameboard {
     }
 
     /**
-     * Gets the value of a square is a ship or something else.
+     * Gets the value of a square if it's a ship or something else.
      * @param {number} x X coordinate.
      * @param {number} y Y coordinate.
-     * @returns {null|object} A Ship object or null
+     * @returns {null|Ship} A Ship object or null
      */
     peek(x, y) {
+        const b_size = this.getBoardSize();
+        if (x < 0 || x >= b_size || y < 0 || y >= b_size) {
+            return null;
+        }
+
         return this.board[x][y];
+    }
+
+    /**
+     * Helper function to trace the root of a part of the ship based on its square.
+     * @param {string} The ship's id.
+     * @returns {object|null} The set of coordinates where the root of the ship part lives.
+     */
+    getRoot(id) {
+        const b_size = this.getBoardSize();
+
+        for (let i = 0; i < b_size; i++) {
+            for (let j = 0; j < b_size; j++) {
+                const square = this.peek(i, j);
+
+                if (square instanceof Ship) {
+                    const ship = square;
+                    if (ship.getId() === id) {
+                        return { x: i, y: j };
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Rotates the ship by updating its orientation.
+     * @param {number} x X-coordinate of the ship.
+     * @param {number} y Y-coordinate of the ship.
+     * @returns {number} Successfully rotates 0, Fail -1.
+     */
+    rotateShip(id) {
+        const root = this.getRoot(id);
+        const ship = this.peek(root.x, root.y);
+
+        if (ship.length === 1) return -1;
+
+        //  HACK: unimplemented removing of ship
+        for (let i = 0; i < ship.length; i++) {
+            const next = ship.isVertical
+                ? { x: root.x + i, y: root.y }
+                : { x: root.x, y: root.y + i };
+
+            this.board[next.x][next.y] = null;
+            this.tracker.delete(`${next.x}${next.y}`);
+        }
+
+        const status = this.validateSquare(
+            root.x,
+            root.y,
+            ship.length,
+            !ship.isVertical,
+        );
+
+        if (status === 0) {
+            this.placeShip(
+                root.x,
+                root.y,
+                ship.length,
+                !ship.isVertical,
+                ship.id,
+            );
+        } else {
+            this.placeShip(
+                root.x,
+                root.y,
+                ship.length,
+                ship.isVertical,
+                ship.id,
+            );
+        }
+
+        return status;
     }
 
     /**
@@ -92,6 +176,7 @@ class Gameboard {
      * @param {number} y Y coordinate.
      * @param {number} length Length of the ship to be validated.
      * @param {boolean} isVertical Orientation of the ship.
+     * @returns {number} 0 if the move is valid, otherwise -1
      */
     validateSquare(x, y, length, isVertical) {
         const b_size = this.getBoardSize();
@@ -105,8 +190,7 @@ class Gameboard {
                 sourceX < 0 ||
                 sourceX >= b_size ||
                 sourceY < 0 ||
-                sourceY >= b_size ||
-                this.peek(sourceX, sourceY)
+                sourceY >= b_size
             ) {
                 return -1;
             }
@@ -116,15 +200,8 @@ class Gameboard {
                 for (let m = -1; m < 2; m++) {
                     const adjX = sourceX + l;
                     const adjY = sourceY + m;
-                    // center
-                    if (
-                        adjX < 0 ||
-                        adjX >= b_size ||
-                        adjY < 0 ||
-                        adjY >= b_size
-                    )
-                        continue;
 
+                    // center
                     if (adjX === sourceX && adjY === sourceY) continue;
 
                     if (this.peek(adjX, adjY)) {
