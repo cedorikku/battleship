@@ -17,19 +17,19 @@ class ScreenController {
 
         const b_size = Config.boardSize;
 
-        for (let i = 0; i < b_size; i++) {
-            for (let j = 0; j < b_size; j++) {
+        for (let i = -1; i < b_size; i++) {
+            for (let j = -1; j < b_size; j++) {
                 const box = document.createElement('div');
 
-                if (i === 0 && j === 0) {
+                if (i === -1 && j === -1) {
                     board.appendChild(box);
                     continue;
-                } else if (i === 0 && j > 0) {
-                    box.textContent = `${j}`;
+                } else if (i === -1 && j > -1) {
+                    box.textContent = `${j + 1}`;
                     board.appendChild(box);
                     continue;
-                } else if (i > 0 && j === 0) {
-                    box.textContent = `${String.fromCharCode(i + 64)} `;
+                } else if (j === -1 && i > -1) {
+                    box.textContent = `${String.fromCharCode(i + 65)} `;
                     board.appendChild(box);
                     continue;
                 }
@@ -70,19 +70,19 @@ class ScreenController {
 
         const b_size = Config.boardSize;
 
-        for (let i = 0; i < b_size; i++) {
-            for (let j = 0; j < b_size; j++) {
+        for (let i = -1; i < b_size; i++) {
+            for (let j = -1; j < b_size; j++) {
                 const box = document.createElement('button');
 
-                if (i === 0 && j === 0) {
+                if (i === -1 && j === -1) {
                     board.appendChild(box);
                     continue;
-                } else if (i === 0 && j > 0) {
-                    box.textContent = `${j}`;
+                } else if (i === -1 && j > -1) {
+                    box.textContent = `${j + 1}`;
                     board.appendChild(box);
                     continue;
-                } else if (i > 0 && j === 0) {
-                    box.textContent = `${String.fromCharCode(i + 64)} `;
+                } else if (j === -1 && i > -1) {
+                    box.textContent = `${String.fromCharCode(i + 65)} `;
                     board.appendChild(box);
                     continue;
                 }
