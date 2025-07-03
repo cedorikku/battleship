@@ -97,6 +97,9 @@ class Gameboard {
      */
     rotateShip(id) {
         const root = this.getRoot(id);
+
+        if (!root) return -1; // ship not found or does not exist
+
         const ship = this.peek(root.x, root.y);
 
         if (ship.length === 1) return -1;
