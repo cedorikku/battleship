@@ -20,7 +20,21 @@ class ScreenController {
         for (let i = 0; i < b_size; i++) {
             for (let j = 0; j < b_size; j++) {
                 const box = document.createElement('div');
-                box.setAttribute('data-coords', `${i}${j}`);
+
+                if (i === 0 && j === 0) {
+                    board.appendChild(box);
+                    continue;
+                } else if (i === 0 && j > 0) {
+                    box.textContent = `${j}`;
+                    board.appendChild(box);
+                    continue;
+                } else if (i > 0 && j === 0) {
+                    box.textContent = `${String.fromCharCode(i + 64)} `;
+                    board.appendChild(box);
+                    continue;
+                }
+
+                box.setAttribute('data-coords', `${i}${j} `);
 
                 if (currentBoard) {
                     const _status = currentBoard.getState(i, j);
@@ -56,12 +70,24 @@ class ScreenController {
 
         const b_size = Config.boardSize;
 
-        // TODO: Show board labels
-
         for (let i = 0; i < b_size; i++) {
             for (let j = 0; j < b_size; j++) {
                 const box = document.createElement('button');
-                box.setAttribute('data-coords', `${i}${j}`);
+
+                if (i === 0 && j === 0) {
+                    board.appendChild(box);
+                    continue;
+                } else if (i === 0 && j > 0) {
+                    box.textContent = `${j}`;
+                    board.appendChild(box);
+                    continue;
+                } else if (i > 0 && j === 0) {
+                    box.textContent = `${String.fromCharCode(i + 64)} `;
+                    board.appendChild(box);
+                    continue;
+                }
+
+                box.setAttribute('data-coords', `${i}${j} `);
 
                 // change enemy board behavior
                 if (currentBoard) {
