@@ -148,7 +148,7 @@ class Gameboard {
      * @param {number} y Y coordinate.
      * @param {number} length Length of the ship.
      * @param {boolean} isVertical Orientation of the ship. Defaults to true.
-     * @param {number} id Unique identifier of the ship.
+     * @param {string} id Unique identifier of the ship.
      * @returns {number} 0 if successful and -1 invalid.
      */
     placeShip(x, y, length, isVertical = true, id = uuidv4()) {
