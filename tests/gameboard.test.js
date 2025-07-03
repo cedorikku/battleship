@@ -81,6 +81,17 @@ describe('Handles rotation correctly', () => {
         expect(gb.peek(3, 2, true)).toEqual(gb.peek(3, 0));
     });
 
+    test('Does not rotate when the it does not have space for it', () => {
+        const gb = new Gameboard();
+
+        gb.placeShip(0, 0, 3, true, 'ship1'); // vertical ship with 3 length
+        gb.placeShip(0, 2, 4, true); // vertical ship with arbitrary length
+        expect(gb.rotateShip('ship1')).toBe(-1);
+
+        gb.placeShip(9, 0, 3, false, 'ship2'); // horizontal ship with 3 length
+        expect(gb.rotateShip('ship2')).toBe(-1);
+    });
+
     test('Does not rotate anything when the ship supplied does not exist', () => {
         const gb = new Gameboard();
         expect(gb.rotateShip('ghost-ship')).toBe(-1);
