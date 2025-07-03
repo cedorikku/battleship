@@ -24,7 +24,12 @@ describe('Ship placements', () => {
         expect(gb.placeShip(5, 9, 2, false)).toBe(-1);
     });
 
-    // TODO: Add test case to reject invalid body-tail placement
+    test('Rejects placements where there is insufficient space', () => {
+        const gb = new Gameboard();
+
+        expect(gb.placeShip(9, 0, 2, true)).toBe(-1); // vertical ship with 2 length
+        expect(gb.placeShip(0, 8, 3, false)).toBe(-1); // horizontal ship with 3 length
+    });
 
     test('Rejects placements where an adjacent ship is placed', () => {
         const gb = new Gameboard();
@@ -63,7 +68,6 @@ describe('Handles getting the root correctly', () => {
     });
 });
 
-// TODO: Continue testing rotation methods
 describe('Handles rotation correctly', () => {
     test('Rotates when there is available space', () => {
         const gb = new Gameboard();
