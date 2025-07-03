@@ -56,6 +56,11 @@ describe('Handles getting the root correctly', () => {
         expect(gb.getRoot('ship3')).toEqual({ x: 0, y: 2 });
         expect(gb.getRoot('ship3')).toEqual({ x: 0, y: 2 });
     });
+
+    test('Returns null when the ship supplied does not exist', () => {
+        const gb = new Gameboard();
+        expect(gb.getRoot('ghost-ship')).toBeNull();
+    });
 });
 
 // TODO: Continue testing rotation methods
@@ -74,6 +79,11 @@ describe('Handles rotation correctly', () => {
         expect(gb.peek(5, 0)).toBeNull();
         expect(gb.peek(3, 1, true)).toEqual(gb.peek(3, 0));
         expect(gb.peek(3, 2, true)).toEqual(gb.peek(3, 0));
+    });
+
+    test('Does not rotate anything when the ship supplied does not exist', () => {
+        const gb = new Gameboard();
+        expect(gb.rotateShip('ghost-ship')).toBe(-1);
     });
 });
 
