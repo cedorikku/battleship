@@ -33,6 +33,16 @@ h1 {
     margin: 0 -1px -1px 0;
 }
 
+.board>div:not(:has([data-coords])),
+.board>button:not(:has([data-coords])) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
 .board>.intact {
     background-color: rgb(0, 0, 255, 0.5);
 }
