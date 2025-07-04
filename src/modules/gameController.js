@@ -3,9 +3,12 @@ import Config from './config.js';
 import ScreenController from './screenController.js';
 import { randomInt } from './utils.js';
 
+// TODO: Update docs
+
 class GameController {
     constructor() {
         this.currentPlayer = null;
+        this.currentEnemy = null;
         this.screen = new ScreenController();
     }
 
@@ -26,13 +29,18 @@ class GameController {
         this.randomizeBoard(playerTwo.board);
 
         // start the round with playerOne
-        this.setCurrentPlayer(playerOne);
-        this.playRound(playerOne, playerTwo);
+        this.updatePlayers(playerOne, playerTwo);
+        this.playRound();
     }
 
-    /** Sets the current player */
-    setCurrentPlayer(player) {
-        this.currentPlayer = player;
+    /**
+     * Sets the current player
+     * @param current {Player}
+     * @param enemy {Player}
+     */
+    updatePlayers(current, enemy) {
+        this.currentPlayer = current;
+        this.currentEnemy = enemy;
     }
 
     /**
@@ -71,31 +79,34 @@ class GameController {
         }
     }
 
-    playRound(player, enemy) {
+    playRound() {
         // TODO: replace with a real message later
-        console.log(`${player.name}'s turn`);
+        console.log(`${this.currentPlayer.name}'s turn`);
 
-        this.screen.renderBoards(player, enemy);
+        this.screen.renderBoards(this.currentPlayer, this.currentEnemy);
 
         // bot player
-        if (player.isBot) {
+        if (this.currentPlayer.isBot) {
             // bot keeps going until valid
             let status;
             do {
                 const x = randomInt(Config.boardSize);
                 const y = randomInt(Config.boardSize);
 
-                status = enemy.board.receiveAttack(x, y);
+                status = this.currentEnemy.board.receiveAttack(x, y);
 
                 this.handleMoveResult(status);
             } while (status === -1 || status === 2);
 
-            this.screen.renderBoards(player, enemy);
-            this.playRound(enemy, player);
+            this.screen.renderBoards(this.currentPlayer, this.currentEnemy);
+            this.updatePlayers(this.currentEnemy, this.currentPlayer);
+
+            this.playRound();
             return;
         }
 
-        // human player
+        // w.i.p. human player
+        // it probably shouldn't move the board on the opposite side
         document
             .querySelector('#enemy-side > .board')
             .addEventListener('click', (e) => {
@@ -104,7 +115,7 @@ class GameController {
                         .getAttribute('data-coords')
                         .split('');
 
-                    const status = enemy.board.receiveAttack(
+                    const status = this.currentEnemy.board.receiveAttack(
                         coords[0],
                         coords[1],
                     );
@@ -115,8 +126,12 @@ class GameController {
 
                     // play next round if not all sunk yet
 
-                    this.screen.renderBoards(player, enemy);
-                    this.playRound(enemy, player);
+                    this.screen.renderBoards(
+                        this.currentPlayer,
+                        this.currentEnemy,
+                    );
+                    this.updatePlayers(this.currentEnemy, this.currentPlayer);
+                    this.playRound();
                 }
             });
     }
