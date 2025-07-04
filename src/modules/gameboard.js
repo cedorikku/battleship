@@ -10,6 +10,7 @@ class Gameboard {
     constructor() {
         this.board = [];
         this.boardSize = Config.boardSize;
+        this.sunkenShips = 0;
         /**
          * A map to keep track of hit & missed coordinates.
          * Keys are string representations of coordinates (e.g., "x,y") and the value is an object.
@@ -240,6 +241,9 @@ class Gameboard {
         if (_status === 'intact') {
             this.board[x][y].hit();
             this.#addTracking({ x: x, y: y }, 'hit');
+
+            if (this.peek(x, y).isSunk()) this.sunkenShips++;
+
             return 0;
         }
 
@@ -255,6 +259,15 @@ class Gameboard {
      */
     #addTracking(coords, status) {
         this.tracker.set(`${coords.x}${coords.y}`, status);
+    }
+
+    /**
+     * Checks the player's loss if all ships are already sunk.
+     * @returns {boolean}
+     */
+    isDefeated() {
+        const shipCount = Object.keys(Config.variants).length;
+        return this.sunkenShips === shipCount;
     }
 }
 
