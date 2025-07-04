@@ -26,7 +26,7 @@ class GameController {
         this.#populateBoard(playerOne.board);
 
         const playerTwo = new Player('Computer', true);
-        this.randomizeBoard(playerTwo.board);
+        this.#populateBoard(playerTwo.board);
 
         // start the round with playerOne
         this.updatePlayers(playerOne, playerTwo);
