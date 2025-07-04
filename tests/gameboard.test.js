@@ -139,8 +139,15 @@ describe('Receive ship hit', () => {
         expect(gb.receiveAttack(10, 10)).toBe(-1);
     });
 
-    // TODO: a ship has been sunk
-    test.skip('Recognizes a ship has been sunk', () => {
+    test('Recognizes a ship has been sunk', () => {
         const gb = new Gameboard();
+
+        gb.placeShip(0, 0, 2, true); // vertical ship with 2 length
+
+        gb.receiveAttack(0, 0);
+        expect(gb.peek(0, 0).isSunk()).toBe(false);
+
+        gb.receiveAttack(1, 0);
+        expect(gb.peek(0, 0).isSunk()).toBe(true);
     });
 });
