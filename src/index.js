@@ -1,4 +1,5 @@
 import './assets/styles/index.css';
+import './assets/styles/modal.css';
 import GameController from './modules/gameController.js';
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -1,5 +1,6 @@
 import Config from './config.js';
 
+// TODO: Update docs
 class ScreenController {
     constructor() { }
 
@@ -140,6 +141,36 @@ class ScreenController {
                 console.log('Invalid move');
                 break;
         }
+    }
+
+    showModal(header, message) {
+        const backdrop = document.createElement('div');
+        const modal = document.createElement('div');
+        const modalHeader = document.createElement('h2');
+        const modalText = document.createElement('div');
+        const close = document.createElement('button');
+
+        // options
+        backdrop.classList.add('modal-backdrop');
+        modal.classList.add('modal-content');
+        modalHeader.classList.add('modal-header');
+
+        modalHeader.textContent = header;
+        modalText.textContent = message;
+        close.textContent = 'close';
+
+        // buttons
+        close.addEventListener('click', () => {
+            document.body.removeChild(backdrop);
+        });
+
+        // modal content
+        backdrop.appendChild(modal);
+        modal.appendChild(modalHeader);
+        modal.appendChild(modalText);
+        modal.appendChild(close);
+
+        document.body.appendChild(backdrop);
     }
 }
 
