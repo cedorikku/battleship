@@ -57,7 +57,7 @@ h1 {
     background-color: lightgrey;
 }
 
-#enemy-side>.board>.blank:hover {
+#right>.board>.blank:hover {
     outline: 2px solid rgb(0, 0, 0, 1);
     z-index: 999;
 }

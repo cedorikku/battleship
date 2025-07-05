@@ -73,6 +73,7 @@ class ScreenController {
 
         for (let i = -1; i < b_size; i++) {
             for (let j = -1; j < b_size; j++) {
+                // FIX: have div for non-clickable elements (labels)
                 const box = document.createElement('button');
 
                 if (i === -1 && j === -1) {
@@ -108,22 +109,22 @@ class ScreenController {
 
     /**
      * Handles rendering ender both players' boards in the DOM
-     * @param {Player} player Current player of the turn.
-     * @param {Player} enemy Current enemy of the turn.
+     * @param {Player} left Player on the left side.
+     * @param {Player} right Player on the right side.
      */
-    renderBoards(player, enemy) {
-        const playerSide = document.getElementById('player-side');
-        const enemySide = document.getElementById('enemy-side');
+    renderBoards(left, right) {
+        const leftSide = document.getElementById('left');
+        const rightSide = document.getElementById('right');
 
         // clear it first, before any rendering
-        playerSide.replaceChildren();
-        enemySide.replaceChildren();
+        leftSide.replaceChildren();
+        rightSide.replaceChildren();
 
-        const board1 = this.#createBoard(player && player.board);
-        playerSide.appendChild(board1);
+        const board1 = this.#createBoard(left && left.board);
+        const board2 = this.#createEnemyBoard(right && right.board);
 
-        const board2 = this.#createEnemyBoard(enemy && enemy.board);
-        enemySide.appendChild(board2);
+        leftSide.appendChild(board1);
+        rightSide.appendChild(board2);
     }
 
     /* TODO: Show an output in the DOM depending on what status is received. */

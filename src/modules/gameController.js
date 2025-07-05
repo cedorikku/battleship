@@ -35,8 +35,8 @@ class GameController {
 
     /**
      * Sets the current player
-     * @param current {Player}
-     * @param enemy {Player}
+     * @param {Player} current
+     * @param {Player} enemy
      */
     updatePlayers(current, enemy) {
         this.currentPlayer = current;
@@ -79,10 +79,12 @@ class GameController {
         }
     }
 
+    /**
+     * TODO: DOCS: play round
+     */
     playRound() {
         // TODO: replace with a real message later
         console.log(`${this.currentPlayer.name}'s turn`);
-
         this.screen.renderBoards(this.currentPlayer, this.currentEnemy);
 
         // bot player
@@ -99,9 +101,8 @@ class GameController {
             this.handleMove(moveResult);
         }
 
-        // wip, it probably shouldn't move the board on the opposite side
         document
-            .querySelector('#enemy-side > .board')
+            .querySelector('#right > .board')
             .addEventListener('click', (e) => {
                 if (e.target.hasAttribute('data-coords')) {
                     const coords = e.target
@@ -121,9 +122,11 @@ class GameController {
             });
     }
 
-    /** TODO: Handles what to do after a successful move by the player
-     * - shows a feedback on the screen
-     * - check if all ship is sunk
+    /**
+     * Handles what to do after a successful move by the player.
+     * Shows a feedback on the screen.
+     * Checks if all ship is sunk.
+     * @param {number} moveResult
      */
     handleMove(moveResult) {
         // show user feedback
@@ -144,9 +147,11 @@ class GameController {
             }
         }
 
-        // play next round if not all sunk yet
+        // HACK: play next round automatically for now
+        // if (this.currentPlayer.isBot)
         this.updatePlayers(this.currentEnemy, this.currentPlayer);
         this.playRound();
+        return;
     }
 }
 
