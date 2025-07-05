@@ -88,25 +88,18 @@ class GameController {
         // bot player
         if (this.currentPlayer.isBot) {
             // bot keeps going until valid
-            let status;
+            let moveResult;
             do {
                 const x = randomInt(Config.boardSize);
                 const y = randomInt(Config.boardSize);
 
-                status = this.currentEnemy.board.receiveAttack(x, y);
-            } while (status === -1 || status === 2);
+                moveResult = this.currentEnemy.board.receiveAttack(x, y);
+            } while (moveResult === -1 || moveResult === 2);
 
-            this.handleMoveResult(status);
-
-            this.screen.renderBoards(this.currentPlayer, this.currentEnemy);
-            this.updatePlayers(this.currentEnemy, this.currentPlayer);
-
-            this.playRound();
-            return;
+            this.handleMove(moveResult);
         }
 
-        // w.i.p. human player
-        // it probably shouldn't move the board on the opposite side
+        // wip, it probably shouldn't move the board on the opposite side
         document
             .querySelector('#enemy-side > .board')
             .addEventListener('click', (e) => {
@@ -115,33 +108,15 @@ class GameController {
                         .getAttribute('data-coords')
                         .split('');
 
-                    const status = this.currentEnemy.board.receiveAttack(
+                    const moveResult = this.currentEnemy.board.receiveAttack(
                         coords[0],
                         coords[1],
                     );
 
-                    if (status === 2) return;
+                    // clicked square is already hit, do nothing
+                    if (moveResult === 2) return;
 
-                    this.screen.renderBoards(
-                        this.currentPlayer,
-                        this.currentEnemy,
-                    );
-
-                    // game over
-                    if (this.handleMoveResult(status) === 2) {
-                        this.screen.showModal(
-                            'Game Over',
-                            `${this.currentPlayer.name} wins`,
-                        );
-
-                        // TODO: after game finishes, go back to menu
-
-                        return;
-                    }
-
-                    // play next round if not all sunk yet
-                    this.updatePlayers(this.currentEnemy, this.currentPlayer);
-                    this.playRound();
+                    this.handleMove(moveResult);
                 }
             });
     }
@@ -150,16 +125,28 @@ class GameController {
      * - shows a feedback on the screen
      * - check if all ship is sunk
      */
-    handleMoveResult(status) {
-        this.screen.showMessage(status);
+    handleMove(moveResult) {
+        // show user feedback
+        this.screen.showMessage(moveResult);
+        this.screen.renderBoards(this.currentPlayer, this.currentEnemy);
 
-        if (status === 0) {
+        if (moveResult === 0) {
             // check if ship is sunk
             if (this.currentEnemy.board.isDefeated()) {
-                return 2;
+                // game over
+                this.screen.showModal(
+                    'Game Over',
+                    `${this.currentPlayer.name} wins`,
+                );
+
+                // TODO: after game finishes, show an option for rematch, or something else
+                return;
             }
         }
-        return 0;
+
+        // play next round if not all sunk yet
+        this.updatePlayers(this.currentEnemy, this.currentPlayer);
+        this.playRound();
     }
 }
 
