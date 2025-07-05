@@ -94,9 +94,9 @@ class GameController {
                 const y = randomInt(Config.boardSize);
 
                 status = this.currentEnemy.board.receiveAttack(x, y);
-
-                this.handleMoveResult(status);
             } while (status === -1 || status === 2);
+
+            this.handleMoveResult(status);
 
             this.screen.renderBoards(this.currentPlayer, this.currentEnemy);
             this.updatePlayers(this.currentEnemy, this.currentPlayer);
@@ -122,14 +122,24 @@ class GameController {
 
                     if (status === 2) return;
 
-                    this.handleMoveResult(status);
-
-                    // play next round if not all sunk yet
-
                     this.screen.renderBoards(
                         this.currentPlayer,
                         this.currentEnemy,
                     );
+
+                    // game over
+                    if (this.handleMoveResult(status) === 2) {
+                        this.screen.showModal(
+                            'Game Over',
+                            `${this.currentPlayer.name} wins`,
+                        );
+
+                        // TODO: after game finishes, go back to menu
+
+                        return;
+                    }
+
+                    // play next round if not all sunk yet
                     this.updatePlayers(this.currentEnemy, this.currentPlayer);
                     this.playRound();
                 }
@@ -137,13 +147,19 @@ class GameController {
     }
 
     /** TODO: Handles what to do after a successful move by the player
-     *   shows a feedback on the screen
+     * - shows a feedback on the screen
      * - check if all ship is sunk
      */
     handleMoveResult(status) {
         this.screen.showMessage(status);
 
-        // check if ship is sunk
+        if (status === 0) {
+            // check if ship is sunk
+            if (this.currentEnemy.board.isDefeated()) {
+                return 2;
+            }
+        }
+        return 0;
     }
 }
 
