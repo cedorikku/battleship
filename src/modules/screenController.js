@@ -2,7 +2,7 @@ import Config from './config.js';
 
 // TODO: Update docs
 class ScreenController {
-    constructor() { }
+    constructor() {}
 
     /**
      * Handles rendering current enemy players' board in the DOM.
@@ -73,22 +73,21 @@ class ScreenController {
 
         for (let i = -1; i < b_size; i++) {
             for (let j = -1; j < b_size; j++) {
-                // FIX: have div for non-clickable elements (labels)
-                const box = document.createElement('button');
+                let box;
 
-                if (i === -1 && j === -1) {
-                    board.appendChild(box);
-                    continue;
-                } else if (i === -1 && j > -1) {
-                    box.textContent = `${j + 1}`;
-                    board.appendChild(box);
-                    continue;
-                } else if (j === -1 && i > -1) {
-                    box.textContent = `${String.fromCharCode(i + 65)} `;
+                if (i === -1 || j === -1) {
+                    box = document.createElement('div');
+                    if (j > -1) {
+                        box.textContent = `${j + 1}`;
+                    } else if (i > -1) {
+                        box.textContent = `${String.fromCharCode(i + 65)}`;
+                    }
+
                     board.appendChild(box);
                     continue;
                 }
 
+                box = document.createElement('button');
                 box.setAttribute('data-coords', `${i}${j} `);
 
                 // change enemy board behavior
