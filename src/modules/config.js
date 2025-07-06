@@ -4,7 +4,7 @@ class Config {
         carrier: 5,
         battleship: 4,
         cruiser: 3,
-        submarine: 2,
+        submarine: 3,
         destroyer: 2,
     });
 }
