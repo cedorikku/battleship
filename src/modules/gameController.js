@@ -55,6 +55,21 @@ class GameController {
     }
 
     /**
+     * Starts an instance of a game.
+     */
+    startGame() {
+        const playerOne = new Player('Player 1', false);
+        this.populateBoard(playerOne.board);
+
+        const playerTwo = new Player('Computer', true);
+        this.populateBoard(playerTwo.board);
+
+        // start the round with playerOne
+        this.updatePlayers(playerOne, playerTwo);
+        this.playRound();
+    }
+
+    /**
      * For randomly populating the board.
      * @param {GameBoard} Players' board.
      */

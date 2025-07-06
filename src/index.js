@@ -17,21 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function handleStartGame() {
     screenController.closeMenu();
-    startGame();
+    gameController.startGame();
 }
 
-/**
- * WIP:
- * Starts the game.
- */
-function startGame() {
-    const playerOne = new Player('Player 1', false);
-    gameController.populateBoard(playerOne.board);
-
-    const playerTwo = new Player('Computer', true);
-    gameController.populateBoard(playerTwo.board);
-
-    // start the round with playerOne
-    gameController.updatePlayers(playerOne, playerTwo);
-    gameController.playRound();
-}
