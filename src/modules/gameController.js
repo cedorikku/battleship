@@ -46,12 +46,12 @@ class GameController {
 
     /**
      * Sets the current player
-     * @param {Player} current
+     * @param {Player} active
      * @param {Player} enemy
      */
-    updatePlayers(current, enemy) {
-        this.currentPlayer = current;
-        this.currentEnemy = enemy;
+    updatePlayers(active, enemy) {
+        this.activePlayer = active;
+        this.enemyPlayer = enemy;
     }
 
     /**
@@ -95,11 +95,11 @@ class GameController {
      */
     playRound() {
         // TODO: replace with a real message later
-        console.log(`${this.currentPlayer.name}'s turn`);
-        this.screen.renderBoards(this.currentPlayer, this.currentEnemy);
+        console.log(`${this.activePlayer.name}'s turn`);
+        this.screen.renderBoards(this.activePlayer, this.enemyPlayer);
 
         // bot player
-        if (this.currentPlayer.isBot) {
+        if (this.activePlayer.isBot) {
             // bot keeps going until valid
             let moveResult;
             do {
@@ -142,15 +142,15 @@ class GameController {
     handleMove(moveResult) {
         // show user feedback
         this.screen.showMessage(moveResult);
-        this.screen.renderBoards(this.currentPlayer, this.currentEnemy);
+        this.screen.renderBoards(this.activePlayer, this.enemyPlayer);
 
         if (moveResult === 0) {
             // check if ship is sunk
-            if (this.currentEnemy.board.isDefeated()) {
+            if (this.enemyPlayer.board.isDefeated()) {
                 // game over
                 this.screen.showModal(
                     'Game Over',
-                    `${this.currentPlayer.name} wins`,
+                    `${this.activePlayer.name} wins`,
                 );
 
                 // TODO: after game finishes, show an option for rematch, or something else
@@ -159,8 +159,8 @@ class GameController {
         }
 
         // HACK: play next round automatically for now
-        // if (this.currentPlayer.isBot)
-        this.updatePlayers(this.currentEnemy, this.currentPlayer);
+        // if (this.activePlayer.isBot)
+        this.updatePlayers(this.enemyPlayer, this.activePlayer);
         this.playRound();
         return;
     }
