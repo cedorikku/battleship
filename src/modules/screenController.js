@@ -183,6 +183,34 @@ class ScreenController {
 
         document.body.appendChild(backdrop);
     }
+
+    /**
+     * WIP:
+     * Render main menu.
+     */
+    renderMenu() {
+        const menu = document.createElement('div');
+        menu.classList.add('menu');
+
+        const playButton = document.createElement('button');
+
+        playButton.id = 'playButton';
+        playButton.classList.add('btn');
+        playButton.textContent = 'Play with bot';
+
+        menu.appendChild(playButton);
+
+        document.body.appendChild(menu);
+    }
+
+    /**
+     * WIP:
+     * Closes the opened menu.
+     */
+    closeMenu() {
+        const menu = document.querySelector('.menu');
+        if (menu) menu.remove();
+    }
 }
 
 export default ScreenController;

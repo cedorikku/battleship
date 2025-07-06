@@ -9,19 +9,15 @@ const screenController = new ScreenController();
 
 document.addEventListener('DOMContentLoaded', () => {
     // render main menu
-    loadMenu();
+    screenController.renderMenu();
 
-    // TEMP: audomatically starts the game
-    startGame();
+    const playButton = document.getElementById('playButton');
+    playButton.addEventListener('click', () => handleStartGame());
 });
 
-/**
- * WIP
- * Loads the main menu without starting the game.
- */
-function loadMenu() {
-    // render empty grid
-    screenController.renderBoards();
+function handleStartGame() {
+    screenController.closeMenu();
+    startGame();
 }
 
 /**
