@@ -112,18 +112,29 @@ class ScreenController {
      * @param {Player} right Player on the right side.
      */
     renderBoards(left, right) {
-        const leftSide = document.getElementById('left');
-        const rightSide = document.getElementById('right');
+        // Clears the previous game screen
+        const prevScreen = document.querySelector('.game');
+        if (prevScreen) prevScreen.remove();
 
-        // clear it first, before any rendering
-        leftSide.replaceChildren();
-        rightSide.replaceChildren();
+        // Renders a new screen
+        const gameScreen = document.createElement('main');
+        gameScreen.classList.add('game');
+
+        const leftSide = document.createElement('div');
+        leftSide.id = 'left';
+        const rightSide = document.createElement('div');
+        rightSide.id = 'right';
 
         const board1 = this.#createBoard(left && left.board);
         const board2 = this.#createEnemyBoard(right && right.board);
 
         leftSide.appendChild(board1);
         rightSide.appendChild(board2);
+
+        gameScreen.appendChild(leftSide);
+        gameScreen.appendChild(rightSide);
+
+        document.body.appendChild(gameScreen);
     }
 
     /* TODO: Show an output in the DOM depending on what status is received. */
