@@ -13,27 +13,6 @@ class GameController {
     }
 
     /**
-     * WIP
-     * Loads the main menu without starting the game.
-     */
-    loadMenu() {
-        this.screen.renderBoards();
-    }
-
-    /** WIP Starts the game. */
-    startGame() {
-        const playerOne = new Player('Player 1', false);
-        this.#populateBoard(playerOne.board);
-
-        const playerTwo = new Player('Computer', true);
-        this.#populateBoard(playerTwo.board);
-
-        // start the round with playerOne
-        this.updatePlayers(playerOne, playerTwo);
-        this.playRound();
-    }
-
-    /**
      * Sets the current player
      * @param {Player} current
      * @param {Player} enemy
@@ -67,7 +46,7 @@ class GameController {
      * For arbitrarily populating the board.
      * @param {GameBoard} Players' board.
      */
-    #populateBoard(board) {
+    populateBoard(board) {
         let y = 0;
         for (let [key, value] of Object.entries(Config.variants)) {
             const x = 0;
