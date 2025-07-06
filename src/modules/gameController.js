@@ -22,10 +22,26 @@ class GameController {
 
     /**
      * Gets the current enemy player of the turn
-     * @returns {Player}
+     * @param {Player}
      */
     get enemyPlayer() {
         return this.currentEnemy;
+    }
+
+    /**
+     * Sets the current player of the turn
+     * @param {Player}
+     */
+    set activePlayer(player) {
+        this.currentPlayer = player;
+    }
+
+    /**
+     * Sets the current enemy player of the turn
+     * @returns {Player}
+     */
+    set enemyPlayer(player) {
+        this.currentEnemy = player;
     }
 
     /**
