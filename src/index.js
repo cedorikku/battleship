@@ -9,6 +9,7 @@ const screenController = new ScreenController();
 
 document.addEventListener('DOMContentLoaded', () => {
     // render main menu
+    screenController.renderBoards();
     screenController.renderMenu();
 
     const playButton = document.getElementById('playButton');
@@ -19,4 +20,3 @@ function handleStartGame() {
     screenController.closeMenu();
     gameController.startGame();
 }
-

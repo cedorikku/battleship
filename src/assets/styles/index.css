@@ -16,8 +16,9 @@ h1 {
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    min-height: 90vh;
+    min-height: 65vh;
     gap: 1rem;
+    margin: 1rem auto;
 }
 
 .board {

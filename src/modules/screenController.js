@@ -18,7 +18,7 @@ class ScreenController {
 
         const b_size = Config.boardSize;
 
-        for (let i = -1; i < b_size; i++) {
+for (let i = -1; i < b_size; i++) {
             for (let j = -1; j < b_size; j++) {
                 const box = document.createElement('div');
 
@@ -154,6 +154,11 @@ class ScreenController {
         }
     }
 
+    /**
+     * Shows a modal (popup) on the screen, with a close button.
+     * @param {string} header
+     * @param {string} message
+     */
     showModal(header, message) {
         const backdrop = document.createElement('div');
         const modal = document.createElement('div');
