@@ -1,6 +1,6 @@
 import Player from './player.js';
-import Config from './config.js';
 import ScreenController from './screenController.js';
+import Config from './config.js';
 import { randomInt } from './utils.js';
 
 // TODO: Update docs
@@ -57,52 +57,10 @@ class GameController {
     /**
      * Starts an instance of a game.
      */
-    startGame() {
-        const playerOne = new Player('Player 1', false);
-        this.populateBoard(playerOne.board);
-
-        const playerTwo = new Player('Computer', true);
-        this.populateBoard(playerTwo.board);
-
+    startGame(playerOne, playerTwo) {
         // start the round with playerOne
         this.updatePlayers(playerOne, playerTwo);
         this.playRound();
-    }
-
-    /**
-     * For randomly populating the board.
-     * @param {GameBoard} Players' board.
-     */
-    randomizeBoard(board) {
-        // four ships
-
-        for (let key in Config.variants) {
-            let status = -1;
-            do {
-                const x = randomInt(Config.boardSize);
-                const y = randomInt(Config.boardSize);
-                const length = Config.variants[key];
-                const isVertical = randomInt(2) === 0 ? true : false;
-
-                status = board.placeShip(x, y, length, isVertical, key);
-            } while (status !== 0);
-        }
-    }
-
-    /**
-     * For arbitrarily populating the board.
-     * @param {GameBoard} Players' board.
-     */
-    populateBoard(board) {
-        let y = 0;
-        for (let [key, value] of Object.entries(Config.variants)) {
-            const x = 0;
-            const length = value;
-            const isVertical = true;
-
-            board.placeShip(x, y, length, isVertical, key);
-            y += 2;
-        }
     }
 
     /**
