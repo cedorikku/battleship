@@ -93,7 +93,7 @@ class Gameboard {
     /**
      * Rotates the ship by updating its orientation.
      * @param {string | number} - The identifier of target ship (Ship).
-     * @returns {number} 0 if rotates succesfully or -1 on fail.
+     * @returns {number} Operation status where 0 if rotates succesfully or -1 on fail.
      */
     rotateShip(id) {
         const root = this.getRoot(id);
@@ -104,15 +104,7 @@ class Gameboard {
 
         if (ship.length === 1) return -1;
 
-        //  HACK: unimplemented removing of ship
-        for (let i = 0; i < ship.length; i++) {
-            const next = ship.isVertical
-                ? { x: root.x + i, y: root.y }
-                : { x: root.x, y: root.y + i };
-
-            this.board[next.x][next.y] = null;
-            this.tracker.delete(`${next.x}${next.y}`);
-        }
+        this.removeShip(id);
 
         const status = this.validateSquare(
             root.x,
@@ -121,25 +113,34 @@ class Gameboard {
             !ship.isVertical,
         );
 
-        if (status === 0) {
-            this.placeShip(
-                root.x,
-                root.y,
-                ship.length,
-                !ship.isVertical,
-                ship.id,
-            );
-        } else {
-            this.placeShip(
-                root.x,
-                root.y,
-                ship.length,
-                ship.isVertical,
-                ship.id,
-            );
-        }
+        let rotated = (status === 0) ? !ship.isVertical : ship.isVertical;
+        this.placeShip(root.x, root.y, ship.length, rotated, ship.id);
 
         return status;
+    }
+
+    /**
+     * Removes a ship from the board.
+     * @param {string | number} - The identifier of target ship (Ship).
+     * @returns {number} Operation status where 0 if removed succesfully or -1 on fail.
+     */
+    removeShip(id) {
+        const root = this.getRoot(id);
+
+        if (!root) return -1; // ship not found or does not exist
+
+        const ship = this.peek(root.x, root.y);
+
+        if (ship.length === 1) return -1;
+
+        for (let i = 0; i < ship.length; i++) {
+            const next = ship.isVertical
+                ? { x: root.x + i, y: root.y }
+                : { x: root.x, y: root.y + i };
+
+            this.board[next.x][next.y] = null;
+            this.tracker.delete(`${next.x}${next.y}`);
+        }
     }
 
     /**

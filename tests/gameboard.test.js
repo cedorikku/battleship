@@ -68,6 +68,8 @@ describe('Handles getting the root correctly', () => {
     });
 });
 
+// TODO: Test ship removal on the board
+
 describe('Handles rotation correctly', () => {
     test('Rotates when there is available space', () => {
         const gb = new Gameboard();
