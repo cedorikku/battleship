@@ -92,9 +92,8 @@ class Gameboard {
 
     /**
      * Rotates the ship by updating its orientation.
-     * @param {number} x X-coordinate of the ship.
-     * @param {number} y Y-coordinate of the ship.
-     * @returns {number} Successfully rotates 0, Fail -1.
+     * @param {string | number} - The identifier of target ship (Ship).
+     * @returns {number} 0 if rotates succesfully or -1 on fail.
      */
     rotateShip(id) {
         const root = this.getRoot(id);
