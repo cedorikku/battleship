@@ -1,15 +1,43 @@
+import Player from './player.js';
+import GameController from './gameController.js';
 import Config from './config.js';
 
-// TODO: Update docs
+// TODO: Check and update docs if needed
+
 class ScreenController {
-    constructor() {}
+    constructor() {
+        /**
+         * Game controller, to keep perform game related controls and keep track of game state.
+         * Is randomized a initialization.
+         * @type {GameController} gameController
+         */
+        this._gameController = new GameController();
+        this.handleBoxClick = this.handleBoxClick.bind(this);
+        this.handleStartGameClick = this.handleStartGameClick.bind(this);
+    }
+
+    /**
+     * Gets the game controller for the screen.
+     * @param {GameController} controller
+     */
+    get gameController() {
+        return this._gameController;
+    }
+
+    /**
+     * Sets the game controller for the screen.
+     * @param {GameController} controller
+     */
+    set gameController(controller) {
+        this._gameController = controller;
+    }
 
     /**
      * Handles rendering current enemy players' board in the DOM.
      * Accepts board state to figure out how to show the board.
      * Creates each box with coords having a 2-digit string.
      *
-     * @param {object} currentBoard Contains the current player's gameboard.
+     * @param {Gameboard} currentBoard Contains the current player's gameboard.
      * @returns {Element} A decorated grid for the current player.
      */
     #createBoard(currentBoard) {
@@ -18,7 +46,7 @@ class ScreenController {
 
         const b_size = Config.boardSize;
 
-for (let i = -1; i < b_size; i++) {
+        for (let i = -1; i < b_size; i++) {
             for (let j = -1; j < b_size; j++) {
                 const box = document.createElement('div');
 
@@ -62,7 +90,7 @@ for (let i = -1; i < b_size; i++) {
      * Accepts board state to figure out how to show the board.
      * Creates each box with coords having a 2-digit string.
      *
-     * @param {object} currentBoard Contains the current enemy's gameboard.
+     * @param {Gameboard} currentBoard Contains the current enemy's gameboard.
      * @returns {Element} A decorated grid for the current enemy.
      */
     #createEnemyBoard(currentBoard) {
@@ -88,7 +116,7 @@ for (let i = -1; i < b_size; i++) {
                 }
 
                 box = document.createElement('button');
-                box.setAttribute('data-coords', `${i}${j} `);
+                box.setAttribute('data-coords', `${i}${j}`);
 
                 // change enemy board behavior
                 if (currentBoard) {
@@ -103,15 +131,55 @@ for (let i = -1; i < b_size; i++) {
             }
         }
 
+        if (this.gameController.enemyPlayer) {
+            board.id = 'enemy';
+            board.addEventListener('click', this.handleBoxClick);
+        }
+
         return board;
     }
 
     /**
-     * Handles rendering ender both players' boards in the DOM
-     * @param {Player} left Player on the left side.
-     * @param {Player} right Player on the right side.
+     * Handles player moves against the enemy.
      */
-    renderBoards(left, right) {
+    handleBoxClick(e) {
+        if (e.target.hasAttribute('data-coords')) {
+            const coords = e.target.getAttribute('data-coords').split('');
+
+            const moveStatus =
+                this.gameController.enemyPlayer.board.receiveAttack(
+                    coords[0],
+                    coords[1],
+                );
+
+            // clicked square is already hit, do nothing
+            if (moveStatus === 2) return;
+
+            const moveResult = this.gameController.handleMove(moveStatus);
+
+            switch (moveResult) {
+                case 1:
+                    this.renderBoards();
+                    this.showModal(
+                        'Game Over',
+                        `${this.gameController.activePlayer.name} wins`,
+                    );
+                    document
+                        .getElementById('enemy')
+                        .removeEventListener('click', this.handleBoxClick);
+
+                    // show some more feedback, and a start new game screen
+                    break;
+                default:
+                    this.renderBoards();
+            }
+        }
+    }
+
+    /**
+     * Handles rendering ender both players' boards in the DOM.
+     */
+    renderBoards() {
         // Clears the previous game screen
         const prevScreen = document.querySelector('.game');
         if (prevScreen) prevScreen.remove();
@@ -125,8 +193,15 @@ for (let i = -1; i < b_size; i++) {
         const rightSide = document.createElement('div');
         rightSide.id = 'right';
 
-        const board1 = this.#createBoard(left && left.board);
-        const board2 = this.#createEnemyBoard(right && right.board);
+        const playerOne = this.gameController
+            ? this.gameController.playerOne
+            : null;
+        const playerTwo = this.gameController
+            ? this.gameController.playerTwo
+            : null;
+
+        const board1 = this.#createBoard(playerOne && playerOne.board);
+        const board2 = this.#createEnemyBoard(playerTwo && playerTwo.board);
 
         leftSide.appendChild(board1);
         rightSide.appendChild(board2);
@@ -202,6 +277,9 @@ for (let i = -1; i < b_size; i++) {
         playButton.id = 'playButton';
         playButton.classList.add('btn');
         playButton.textContent = 'Play with bot';
+        playButton.addEventListener('click', () =>
+            this.handleStartGameClick('bot'),
+        );
 
         menu.appendChild(playButton);
 
@@ -215,6 +293,30 @@ for (let i = -1; i < b_size; i++) {
     closeMenu() {
         const menu = document.querySelector('.menu');
         if (menu) menu.remove();
+    }
+
+    /**
+     * Triggers the start of a game.
+     * Considers the decision whether or not to start with a bot.
+     * @param {string} mode It is set to 'bot' by default, or something else in the future.
+     */
+    handleStartGameClick(mode = 'bot') {
+        this.closeMenu();
+
+        switch (mode) {
+            case 'bot':
+                // TODO: Should randomize later
+                const playerTwo = new Player('Computer', true);
+                GameController.populateBoard(playerTwo.board);
+                this.gameController.playerTwo = playerTwo;
+                break;
+            default:
+                console.error('Unimplemented feature');
+                throw new Error();
+        }
+
+        this.gameController.startGame();
+        this.renderBoards();
     }
 }
 
