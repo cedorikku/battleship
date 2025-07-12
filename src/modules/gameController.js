@@ -149,12 +149,12 @@ class GameController {
      * @param {GameBoard} A player's board.
      */
     static randomizeBoard(board) {
-        for (let key in Config.variants) {
+        for (let key in Config.SHIP_VARIANTS) {
             let status = -1;
             do {
                 const x = randomInt(Config.BOARD_SIZE);
                 const y = randomInt(Config.BOARD_SIZE);
-                const length = Config.variants[key];
+                const length = Config.SHIP_VARIANTS[key];
                 const isVertical = randomInt(2) === 0 ? true : false;
 
                 status = board.placeShip(x, y, length, isVertical, key);
@@ -169,7 +169,7 @@ class GameController {
      */
     static populateBoard(board) {
         let y = 0;
-        for (let [key, value] of Object.entries(Config.variants)) {
+        for (let [key, value] of Object.entries(Config.SHIP_VARIANTS)) {
             const x = 0;
             const length = value;
             const isVertical = true;

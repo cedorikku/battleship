@@ -268,7 +268,7 @@ class Gameboard {
      * @returns {boolean}
      */
     isDefeated() {
-        const shipCount = Object.keys(Config.variants).length;
+        const shipCount = Object.keys(Config.SHIP_VARIANTS).length;
         return this.sunkenShips === shipCount;
     }
 }
