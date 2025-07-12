@@ -66,7 +66,16 @@ describe('Handles getting the root position of a ship correctly', () => {
     });
 });
 
-// TODO: Test ship removal on the board
+describe('Handles ship removal', () => {
+    const gb = new Gameboard();
+
+    gb.placeShip(0, 0, BATTLESHIP, VERTICAL, 'ship1');
+    expect(gb.removeShip('ship1')).toBe(0);
+
+    const startY = 0;
+    for (let i = 0; i < BATTLESHIP; i++)
+        expect(gb.peek(0, startY + i)).toBeNull();
+});
 
 describe('Handles rotation correctly', () => {
     test('Rotates when there is available space', () => {
