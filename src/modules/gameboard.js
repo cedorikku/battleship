@@ -10,6 +10,7 @@ class Gameboard {
     constructor() {
         this.board = [];
         this.boardSize = Config.BOARD_SIZE;
+        this.shipList = [];
         this.sunkenShips = 0;
         /**
          * A map to keep track of hit & missed coordinates.
@@ -32,6 +33,14 @@ class Gameboard {
      */
     getBoardSize() {
         return this.boardSize;
+    }
+
+    /**
+     * Gets the ship ids in the board.
+     * @returns {Array<string | number>}
+     */
+    getShipList() {
+        return this.shipList;
     }
 
     /**
@@ -169,6 +178,7 @@ class Gameboard {
                 const _y = !isVertical ? y + i : y;
 
                 this.board[_x][_y] = ship;
+                this.shipList.push(id);
                 this.#addTracking({ x: _x, y: _y }, 'intact');
             }
         }
