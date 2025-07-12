@@ -121,7 +121,7 @@ class Gameboard {
 
     /**
      * Removes a ship from the board.
-     * @param {string | number} - The identifier of target ship (Ship).
+     * @param {string | number} id - The identifier of target ship (Ship).
      * @returns {number} Operation status where 0 if removed succesfully or -1 on fail.
      */
     removeShip(id) {
