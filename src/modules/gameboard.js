@@ -1,4 +1,4 @@
-import Config from './config.js';
+import Config from './battleshipConfig.js';
 import Ship from './ship.js';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 class Gameboard {
     constructor() {
         this.board = [];
-        this.boardSize = Config.boardSize;
+        this.boardSize = Config.BOARD_SIZE;
         this.sunkenShips = 0;
         /**
          * A map to keep track of hit & missed coordinates.

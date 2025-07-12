@@ -1,6 +1,6 @@
 import Player from './player.js';
 import GameController from './gameController.js';
-import Config from './config.js';
+import Config from './battleshipConfig.js';
 
 // TODO: Check and update docs if needed
 
@@ -44,7 +44,7 @@ class ScreenController {
         const board = document.createElement('div');
         board.classList.add('board');
 
-        const b_size = Config.boardSize;
+        const b_size = Config.BOARD_SIZE;
 
         for (let i = -1; i < b_size; i++) {
             for (let j = -1; j < b_size; j++) {
@@ -97,7 +97,7 @@ class ScreenController {
         const board = document.createElement('div');
         board.classList.add('board');
 
-        const b_size = Config.boardSize;
+        const b_size = Config.BOARD_SIZE;
 
         for (let i = -1; i < b_size; i++) {
             for (let j = -1; j < b_size; j++) {

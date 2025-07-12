@@ -1,5 +1,5 @@
 import Player from './player.js';
-import Config from './config.js';
+import Config from './battleshipConfig.js';
 import { randomInt } from './utils.js';
 
 // TODO: Check and update docs if needed
@@ -111,8 +111,8 @@ class GameController {
             // bot keeps going until valid
             let moveStatus;
             do {
-                const x = randomInt(Config.boardSize);
-                const y = randomInt(Config.boardSize);
+                const x = randomInt(Config.BOARD_SIZE);
+                const y = randomInt(Config.BOARD_SIZE);
 
                 moveStatus = this.enemyPlayer.board.receiveAttack(x, y);
             } while (moveStatus === -1 || moveStatus === 2);
@@ -152,8 +152,8 @@ class GameController {
         for (let key in Config.variants) {
             let status = -1;
             do {
-                const x = randomInt(Config.boardSize);
-                const y = randomInt(Config.boardSize);
+                const x = randomInt(Config.BOARD_SIZE);
+                const y = randomInt(Config.BOARD_SIZE);
                 const length = Config.variants[key];
                 const isVertical = randomInt(2) === 0 ? true : false;
 
