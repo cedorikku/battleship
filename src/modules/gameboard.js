@@ -120,7 +120,7 @@ class Gameboard {
     }
 
     /**
-     * Removes a ship from the board.
+     * Removes a ship from the board, replacing its squares with a null value.
      * @param {string | number} id - The identifier of target ship (Ship).
      * @returns {number} Operation status where 0 if removed succesfully or -1 on fail.
      */
@@ -141,6 +141,8 @@ class Gameboard {
             this.board[next.x][next.y] = null;
             this.tracker.delete(`${next.x}${next.y}`);
         }
+
+        return 0;
     }
 
     /**
