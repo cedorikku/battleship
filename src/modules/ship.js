@@ -9,17 +9,55 @@ class Ship {
      * @param {string} id Unique identifier of the ship.
      */
     constructor(length, isVertical, id) {
-        this.hits = 0;
-        this.length = length;
+        this._id = id;
+        this._hits = 0;
+        this._length = length;
         this.isVertical = isVertical;
-        this.id = id;
+    }
+
+    /**
+     * @returns The id of the ship.
+     */
+    get id() {
+        return this._id;
+    }
+
+    /**
+     * Sets the value of ship id.
+     * @param {string | number} id The identifier of the ship.
+     */
+    set id(id) {
+        this._id = id;
     }
 
     /**
      * @returns How many times ship has been hit.
      */
-    getHits() {
-        return this.hits;
+    get hits() {
+        return this._hits;
+    }
+
+    /**
+     * Sets the value of hits.
+     * @param {number} hits - How many times ship has been hit.
+     */
+    set hits(hits) {
+        this._hits = hits;
+    }
+
+    /**
+     * @returns The length of the ship.
+     */
+    get length() {
+        return this._length;
+    }
+
+    /**
+     * Sets the value of ship length.
+     * @param {number} length The length of the ship.
+     */
+    set length(length) {
+        this._length = length;
     }
 
     /**
@@ -37,14 +75,6 @@ class Ship {
      */
     isSunk() {
         return this.length === this.hits;
-    }
-
-    setId(id) {
-        this.id = id;
-    }
-
-    getId() {
-        return this.id;
     }
 }
 

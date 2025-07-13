@@ -90,7 +90,7 @@ class Gameboard {
 
                 if (square instanceof Ship) {
                     const ship = square;
-                    if (ship.getId() === id) {
+                    if (ship.id === id) {
                         return { x: i, y: j };
                     }
                 }

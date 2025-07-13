@@ -74,7 +74,7 @@ class ScreenController {
                     if (_shipExists) {
                         box.setAttribute(
                             'data-id',
-                            currentBoard.peek(i, j).getId(),
+                            currentBoard.peek(i, j).id(),
                         );
                     }
                 }

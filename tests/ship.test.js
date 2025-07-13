@@ -7,7 +7,7 @@ describe('Ship is hit', () => {
     test('Ship tracks its own hits', () => {
         const ship = new Ship(length);
         ship.hit();
-        expect(ship.getHits()).toBe(1);
+        expect(ship.hits).toBe(1);
     });
 
     test('Ship with length gets sunk', () => {
