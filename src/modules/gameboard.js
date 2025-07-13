@@ -1,6 +1,7 @@
 import Config from './battleshipConfig.js';
 import Ship from './ship.js';
 import { v4 as uuidv4 } from 'uuid';
+import { randomInt } from './utils.js';
 
 /**
  * Represents the battleship gameboard of a player
@@ -280,6 +281,34 @@ class Gameboard {
     isDefeated() {
         const shipCount = Object.keys(Config.SHIP_VARIANTS).length;
         return this.sunkenShips === shipCount;
+    }
+
+    /**
+     * Removes all the board's contents by turning ships (Ship) to a null value.
+     */
+    clearBoard() {
+        for (const shipId of this.shipList) {
+           this.removeShip(shipId);
+        }
+    }
+
+    /**
+     * For randomly populating a board.
+     */
+    randomizeBoard() {
+        this.clearBoard();
+
+        for (let key in Config.SHIP_VARIANTS) {
+            let status = -1;
+            do {
+                const x = randomInt(Config.BOARD_SIZE);
+                const y = randomInt(Config.BOARD_SIZE);
+                const length = Config.SHIP_VARIANTS[key];
+                const isVertical = randomInt(2) === 0 ? true : false;
+
+                status = this.placeShip(x, y, length, isVertical, key);
+            } while (status !== 0);
+        }
     }
 }
 

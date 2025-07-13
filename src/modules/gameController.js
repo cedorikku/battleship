@@ -14,7 +14,7 @@ class GameController {
         this.currentEnemy = null;
 
         // randomizes the main player's board at the start
-        GameController.randomizeBoard(this.players.first.board);
+        this.players.first.board.randomizeBoard();
     }
 
     /**
@@ -142,35 +142,6 @@ class GameController {
         this.updateTurn(this.enemyPlayer, this.activePlayer);
         this.playRound();
         return 0;
-    }
-
-    // HACK: Move these static functions away here, so that gameboard handles them instead.
-    /**
-     * Removes all the board's contents by turning ships (Ship) to a null value.
-     * @param {GameBoard} A player's board.
-     */
-    static clearBoard(board) {
-        for (const shipId of board.shipList) {
-           board.removeShip(shipId);
-        }
-    }
-
-    /**
-     * For randomly populating a board.
-     * @param {GameBoard} A player's board.
-     */
-    static randomizeBoard(board) {
-        for (let key in Config.SHIP_VARIANTS) {
-            let status = -1;
-            do {
-                const x = randomInt(Config.BOARD_SIZE);
-                const y = randomInt(Config.BOARD_SIZE);
-                const length = Config.SHIP_VARIANTS[key];
-                const isVertical = randomInt(2) === 0 ? true : false;
-
-                status = board.placeShip(x, y, length, isVertical, key);
-            } while (status !== 0);
-        }
     }
 
     /**

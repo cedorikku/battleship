@@ -311,8 +311,7 @@ class ScreenController {
      * Triggers player board randomization.
      */
     handleRandomizeClick() {
-        GameController.clearBoard(this.gameController.playerOne.board);
-        GameController.randomizeBoard(this.gameController.playerOne.board);
+        this.gameController.playerOne.board.randomizeBoard();
         this.renderBoards();
         this.renderMenu();
     }
