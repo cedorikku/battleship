@@ -144,6 +144,17 @@ class GameController {
         return 0;
     }
 
+    // HACK: Move these static functions away here, so that gameboard handles them instead.
+    /**
+     * Removes all the board's contents by turning ships (Ship) to a null value.
+     * @param {GameBoard} A player's board.
+     */
+    static clearBoard(board) {
+        for (const shipId of board.shipList) {
+           board.removeShip(shipId);
+        }
+    }
+
     /**
      * For randomly populating a board.
      * @param {GameBoard} A player's board.

@@ -12,8 +12,9 @@ class ScreenController {
          * @type {GameController} gameController
          */
         this._gameController = new GameController();
-        this.handleBoxClick = this.handleBoxClick.bind(this);
+        this.handleRandomizeClick = this.handleRandomizeClick.bind(this);
         this.handleStartGameClick = this.handleStartGameClick.bind(this);
+        this.handleBoxClick = this.handleBoxClick.bind(this);
     }
 
     /**
@@ -269,11 +270,21 @@ class ScreenController {
      * Render main menu.
      */
     renderMenu() {
+        const prevMenu = document.querySelector('.menu');
+        if (prevMenu) prevMenu.remove();
+
         const menu = document.createElement('div');
         menu.classList.add('menu');
 
-        const playButton = document.createElement('button');
+        const randomizeButton = document.createElement('button');
+        randomizeButton.id = 'randomizeButton';
+        randomizeButton.classList.add('btn');
+        randomizeButton.textContent = 'Randomize Board';
+        randomizeButton.addEventListener('click', () =>
+            this.handleRandomizeClick(),
+        );
 
+        const playButton = document.createElement('button');
         playButton.id = 'playButton';
         playButton.classList.add('btn');
         playButton.textContent = 'Play with bot';
@@ -281,6 +292,7 @@ class ScreenController {
             this.handleStartGameClick('bot'),
         );
 
+        menu.appendChild(randomizeButton);
         menu.appendChild(playButton);
 
         document.body.appendChild(menu);
@@ -293,6 +305,16 @@ class ScreenController {
     closeMenu() {
         const menu = document.querySelector('.menu');
         if (menu) menu.remove();
+    }
+
+    /**
+     * Triggers player board randomization.
+     */
+    handleRandomizeClick() {
+        GameController.clearBoard(this.gameController.playerOne.board);
+        GameController.randomizeBoard(this.gameController.playerOne.board);
+        this.renderBoards();
+        this.renderMenu();
     }
 
     /**
